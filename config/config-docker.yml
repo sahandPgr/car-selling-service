@@ -1,0 +1,28 @@
+server:
+  port: 8080
+  RunMode: debug
+
+logger:
+  filePath: ../logs/logs.log
+  Encoding: json
+  level: debug
+
+cors:
+  allowOrigins: "*"
+
+postgres:
+  host: postgres_container
+  port: 5432
+  user: postgres
+  password: admin
+  dbName: car_db
+  sslMode: false
+
+redis:
+  host: redis_container
+  port: 6379
+  password: admin
+  db: 0
+  minIdleConnections: 100
+  poolSize: 5000
+  poolTimeout: 240
