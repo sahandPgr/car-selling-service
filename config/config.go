@@ -67,11 +67,11 @@ func GetConfig() *Config {
 func getConfigPath(env string) string {
 	switch env {
 	case "docker":
-		return "config-docker.yml"
+		return "config/config-docker.yml"
 	case "production":
-		return "config-production.yml"
+		return "config/config-production.yml"
 	default:
-		return "config-development.yml"
+		return "../config/config-development.yml"
 	}
 }
 
