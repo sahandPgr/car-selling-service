@@ -13,6 +13,7 @@ type Config struct {
 	Postgres PostgresConfig
 	Redis    RedisConfig
 	Log      LogConfig
+	Password PasswordConfig
 }
 
 // Define the Server struct
@@ -49,6 +50,16 @@ type LogConfig struct {
 	Path     string
 }
 
+// Define the password struct
+type PasswordConfig struct {
+	IncludeCharacters bool
+	IncludeNumbers    bool
+	MinLength         int
+	MaxLength         int
+	IncludeUppercase  bool
+	IncludeLowercase  bool
+}
+
 // Get config function
 func GetConfig() *Config {
 	configPath := getConfigPath(os.Getenv("APP_ENV"))
@@ -71,7 +82,7 @@ func getConfigPath(env string) string {
 	case "production":
 		return "config/config-production.yml"
 	default:
-		return "../config/config-development.yml"
+		return "config/config-development.yml"
 	}
 }
 
