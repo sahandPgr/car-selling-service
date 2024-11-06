@@ -13,6 +13,7 @@ type Config struct {
 	Postgres PostgresConfig
 	Redis    RedisConfig
 	Log      LogConfig
+	Cors     CorsConfig
 	Password PasswordConfig
 }
 
@@ -58,6 +59,11 @@ type PasswordConfig struct {
 	MaxLength         int
 	IncludeUppercase  bool
 	IncludeLowercase  bool
+}
+
+// Get Cors Config
+type CorsConfig struct {
+	AllowOrigins string
 }
 
 // Get config function
