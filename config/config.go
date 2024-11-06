@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -35,13 +36,16 @@ type PostgresConfig struct {
 
 // Define the redis struct
 type RedisConfig struct {
+	PoolTimeout        time.Duration
+	IdleCheckFrequency time.Duration
+	WriteTimeout       time.Duration
+	ReadTimeout        time.Duration
+	DialTimeout        time.Duration
+	Db                 int
+	PoolSize           int
 	Host               string
 	Port               string
 	Password           string
-	Db                 int
-	MinIdleConnections int
-	PoolSize           int
-	PoolTimeout        int
 }
 
 // Define the log struct
@@ -53,10 +57,10 @@ type LogConfig struct {
 
 // Define the password struct
 type PasswordConfig struct {
-	IncludeCharacters bool
-	IncludeNumbers    bool
 	MinLength         int
 	MaxLength         int
+	IncludeCharacters bool
+	IncludeNumbers    bool
 	IncludeUppercase  bool
 	IncludeLowercase  bool
 }

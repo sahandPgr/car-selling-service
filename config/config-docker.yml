@@ -19,10 +19,13 @@ postgres:
   sslMode: false
 
 redis:
-  host: redis_container
+  host: localhost
   port: 6379
   password: admin
   db: 0
-  minIdleConnections: 100
-  poolSize: 5000
-  poolTimeout: 240
+  idleCheckFrequency: 300
+  writeTimeout: 10
+  readTimeout: 10
+  dialTimeout : 10
+  poolSize: 10
+  poolTimeout: 30
