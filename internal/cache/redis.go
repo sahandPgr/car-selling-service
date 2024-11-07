@@ -1,6 +1,8 @@
-package internal
+package cache
 
 import (
+	"context"
+	"log"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -23,6 +25,10 @@ func InitialRedisClient(config *config.Config) {
 		PoolTimeout:  config.Redis.PoolTimeout * time.Second,
 	})
 
+	ctx := context.Background()
+	if res := redisClient.Ping(ctx).String(); res != "ping: PONG" {
+		log.Println("Error while connecting to Redis: " + res)
+	}
 }
 
 // GetRedisClient returns the Redis client

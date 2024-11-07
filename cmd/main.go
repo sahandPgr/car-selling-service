@@ -3,12 +3,15 @@ package main
 import (
 	"github.com/sahandPgr/car-selling-service/api"
 	"github.com/sahandPgr/car-selling-service/config"
-	internal "github.com/sahandPgr/car-selling-service/internal/cache"
+	"github.com/sahandPgr/car-selling-service/internal/cache"
+	"github.com/sahandPgr/car-selling-service/internal/db"
 )
 
 func main() {
 	config := config.GetConfig()
-	internal.InitialRedisClient(config)
-	defer internal.CloseRedisClient()
+	cache.InitialRedisClient(config)
+	defer cache.CloseRedisClient()
+	db.InitialDB(config)
+	defer db.CloseDB()
 	api.InitServer(config)
 }

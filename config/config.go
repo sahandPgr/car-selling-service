@@ -26,12 +26,15 @@ type ServerConfig struct {
 
 // Define the postgres struct
 type PostgresConfig struct {
-	Host     string
-	Port     string
-	User     string
-	Password string
-	Dbname   string
-	SSLMode  bool
+	Host               string
+	Port               string
+	User               string
+	Password           string
+	Dbname             string
+	SslMode            string
+	SetMaxIdleConns    int
+	SetMaxOpenConns    int
+	SetConnMaxLifetime time.Duration
 }
 
 // Define the redis struct

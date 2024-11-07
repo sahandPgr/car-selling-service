@@ -1,19 +1,22 @@
 services:
   postgres:
-    image: postgres
+    image: postgres:latest
     container_name: postgres_container
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: car_db
-      POSTGRES_HOST_AUTH_METHOD: trust
-      PGDATA: /data/postgres
+    healthcheck:
+      test: "pg_isready -U admin -d admin"
+      interval: "10s"
+      timeout: "5s"
+      retries: 5
 
     volumes:
       - postgres:/data/postgres
     ports:
-      - "5432:5432"
+      - 5432:5432
     networks:
       - app_network
   pgadmin:

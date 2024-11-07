@@ -1,9 +1,9 @@
 server:
   port: 8080
-  run_mode: debug
+  runMode: debug
 
 logger:
-  file_path: ../logs/logs.log
+  filePath: ../logs/logs.log
   encoding: json
   level: debug
 
@@ -16,7 +16,10 @@ postgres:
   user: postgres
   password: admin
   dbName: car_db
-  ssl_mode: false
+  sslMode: disable
+  setMaxIdleConns: 10
+  setMaxOpenConns: 100
+  setConnMaxLifetime: 5
 
 redis:
   host: localhost
