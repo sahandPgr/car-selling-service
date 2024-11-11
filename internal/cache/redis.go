@@ -2,18 +2,17 @@ package cache
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"github.com/redis/go-redis/v9"
 	"github.com/sahandPgr/car-selling-service/config"
+	"github.com/sahandPgr/car-selling-service/pkg/logger"
 )
 
 var redisClient *redis.Client
 
 // InitialRedisClient initializes the Redis client
-func InitialRedisClient(config *config.Config) {
-
+func InitialRedisClient(config *config.Config, log logger.Logger) {
 	redisClient = redis.NewClient(&redis.Options{
 		Addr:         config.Redis.Host + ":" + config.Redis.Port,
 		Password:     config.Redis.Password,
@@ -27,7 +26,7 @@ func InitialRedisClient(config *config.Config) {
 
 	ctx := context.Background()
 	if res := redisClient.Ping(ctx).String(); res != "ping: PONG" {
-		log.Println("Error while connecting to Redis: " + res)
+		log.Error(logger.Redis, logger.Startup, nil, "Failed to connect to Redis")
 	}
 }
 

@@ -56,6 +56,7 @@ type LogConfig struct {
 	Level    string
 	Encoding string
 	Path     string
+	Logger   string
 }
 
 // Define the password struct
