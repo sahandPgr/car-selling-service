@@ -1,0 +1,193 @@
+services:
+  ######Setup
+  setup:
+    profiles:
+      - setup
+    build:
+      context: elk/setup/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    init: true
+    volumes:
+      - ./elk/setup/entrypoint.sh:/entrypoint.sh:ro,Z
+      - ./elk/setup/lib.sh:/lib.sh:ro,Z
+      - ./elk/setup/roles:/roles:ro,Z
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
+      FILEBEAT_INTERNAL_PASSWORD: ${FILEBEAT_INTERNAL_PASSWORD:-}
+    networks:
+      - app_network
+    depends_on:
+      - elasticsearch
+
+  ######Elasticsearch
+  elasticsearch:
+    build:
+      context: elk/elasticsearch
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    volumes:
+      - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+      - elasticsearch:/usr/share/elasticsearch/data:Z
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      node.name: elasticsearch
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+      discovery.type: single-node
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  ######Filebeat
+  filebeat:
+    build:
+      context: elk/filebeat/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    user: root
+    command:
+      - -e
+      - --strict.perms=false
+    volumes:
+      - ./elk/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ../src/logs:/var/log/filebeat/service:ro
+      - logs:/var/log/filebeat
+      - logs:/app:ro
+    environment:
+      FILEBEAT_INTERNAL_PASSWORD: ${FILEBEAT_INTERNAL_PASSWORD:-}
+      BEATS_SYSTEM_PASSWORD: ${FILEBEAT_INTERNAL_PASSWORD:-}
+    networks:
+      - app_network
+    depends_on:
+      - elasticsearch
+
+  ######Kibana
+  kibana:
+    build:
+      context: elk/kibana
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    volumes:
+      - ./elk/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
+    ports:
+      - 5601:5601
+    environment:
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
+      ELASTICSEARCH_HOSTS: http://es01:9200
+    networks:
+      - app_network
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+
+  ######Postgres
+  postgres:
+    image: postgres
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: car_sale_db
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  ######PGADMIN
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: sahandahmadipgr2004@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "8090:80"
+    networks:
+      - app_network
+    depends_on:
+      - postgres
+
+  ######Redis
+  redis:
+    image: redis:latest
+    container_name: redis_container
+    restart: unless-stopped
+    environment:
+      REDIS_PASSWORD: admin
+    volumes:
+      - redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - app_network
+
+######Volumes
+volumes:
+  pgadmin:
+  postgres:
+  redis:
+  logs:
+  setup:
+  elasticsearch:
+
+    ######Networks
+networks:
+  app_network:
+    driver: bridge 
+    
+    
+    # postgres:
+    #   image: postgres:latest
+    #   container_name: postgres_container
+    #   restart: unless-stopped
+    #   environment:
+    #     POSTGRES_USER: postgres
+    #     POSTGRES_PASSWORD: admin
+    #     POSTGRES_DB: car_db
+    #   healthcheck:
+    #     test: "pg_isready -U postgres -d car_db"
+    #     interval: "10s"
+    #     timeout: "5s"
+    #     retries: 5
+
+    # volumes:
+    #   - postgres:/data/postgres
+    # ports:
+    #   - 5432:5432
+    # networks:
+    #   - app_network
+
+  # ######Logstash
+  # logstash:
+  #   build:
+  #     context: elk/logstash/
+  #     args:
+  #       ELASTIC_VERSION: ${ELASTIC_VERSION}
+  #   volumes:
+  #     - ./elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
+  #     - ./elk/logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
+  #   ports:
+  #     - 5044:5044
+  #     - 50000:50000/tcp
+  #     - 50000:50000/udp
+  #     - 9600:9600
+  #   environment:
+  #     LS_JAVA_OPTS: -Xms256m -Xmx256m
+  #     LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
+  #   networks:
+  #     - app_network
+  #   depends_on:
+  #     - elasticsearch
+  #   restart: unless-stopped
