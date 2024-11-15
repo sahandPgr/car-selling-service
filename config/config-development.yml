@@ -1,0 +1,44 @@
+server:
+  port: 8080
+  runMode: debug
+
+log:
+  path: logs/logs.log
+  encoding: json
+  level: debug
+  logger: zerolog
+
+cors:
+  allowOrigins: "*"
+
+postgres:
+  host: localhost
+  port: 5432
+  user: newpostgres
+  password: admin
+  dbName: car_sale_db
+  sslMode: disable
+  setMaxIdleConns: 10
+  setMaxOpenConns: 100
+  setConnMaxLifetime: 5
+
+redis:
+  host: localhost
+  port: 6379
+  password: admin
+  db: 0
+  idleTimeout: 300
+  idleCheckFrequency: 300
+  writeTimeout: 10
+  readTimeout: 10
+  dialTimeout : 10
+  poolSize: 10
+  poolTimeout: 30
+
+password:
+  includeCharacters: true
+  includeNumbers: true
+  minLength: 8
+  maxLength: 32
+  includeUppercase: true
+  includeLowercase: true

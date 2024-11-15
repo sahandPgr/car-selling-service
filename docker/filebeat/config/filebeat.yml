@@ -1,0 +1,44 @@
+name: filebeat
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - "/var/log/filebeat/service/*.log"
+      - "/app/*.log"
+    fields:
+      environment: Development
+    multiline.pattern: "^{"
+    multiline.negate: true
+    multiline.match: after
+
+filebeat.config.modules:
+  enabled: true
+  path: ${path.config}/modules.d/*.yml
+
+setup.template.settings:
+  index.number_of_shards: 1
+
+processors:
+  - decode_json_fields:
+      fields: ["message"]
+      process_array: false
+      max_depth: 1
+      target: ""
+      overwrite_keys: false
+      add_error_key: true
+
+filebeat.shutdown_timeout: 5s
+
+output.elasticsearch:
+  hosts: ${ELASTIC_HOSTS}
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD}
+  index: "logs-service-%{+yyyy.MM.dd}"
+  ssl.enabled: true
+  ssl.certificate_authorities: "certs/ca/ca.crt"
+
+setup.template.name: "logs-service"
+setup.template.pattern: "logs-service-*"
+fields_under_root: true
+fields:
+ host.ip: 127.0.0.1
