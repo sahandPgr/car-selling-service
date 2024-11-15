@@ -1,5 +1,3 @@
-## Filebeat configuration
-## https://github.com/elastic/beats/blob/main/deploy/docker/filebeat.docker.yml
 name: filebeat
 filebeat.inputs:
   - type: log
@@ -9,20 +7,14 @@ filebeat.inputs:
       - "/app/*.log"
     fields:
       environment: Development
-    tags: ["gocourse"]
     multiline.pattern: "^{"
     multiline.negate: true
     multiline.match: after
-logging.level: debug
 
-filebeat.config:
-  modules:
-    path: ${path.config}/modules.d/*.yml
-    reload.enabled: true
+filebeat.config.modules:
+  enabled: true
+  path: ${path.config}/modules.d/*.yml
 
-setup.template.name: "logs-service"
-setup.template.pattern: "logs-service-*"
-setup.kibana.host: kibana:5601
 setup.template.settings:
   index.number_of_shards: 1
 
@@ -38,11 +30,15 @@ processors:
 filebeat.shutdown_timeout: 5s
 
 output.elasticsearch:
-  hosts: ["http://elasticsearch:9200"]
-  username: filebeat_internal
-  password: ${FILEBEAT_INTERNAL_PASSWORD}
+  hosts: ${ELASTIC_HOSTS}
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD}
   index: "logs-service-%{+yyyy.MM.dd}"
+  ssl.enabled: true
+  ssl.certificate_authorities: "certs/ca/ca.crt"
 
+setup.template.name: "logs-service"
+setup.template.pattern: "logs-service-*"
 fields_under_root: true
 fields:
  host.ip: 127.0.0.1

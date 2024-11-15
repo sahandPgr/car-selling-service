@@ -14,9 +14,9 @@ cors:
 postgres:
   host: localhost
   port: 5432
-  user: postgres
+  user: newpostgres
   password: admin
-  dbName: car_db
+  dbName: car_sale_db
   sslMode: disable
   setMaxIdleConns: 10
   setMaxOpenConns: 100
