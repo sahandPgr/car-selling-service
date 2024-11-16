@@ -16,6 +16,7 @@ const (
 
 // SubCategory constants
 const (
+	Api SubCategory = "Api"
 	//Postgres
 	Select SubCategory = "Select"
 	Insert SubCategory = "Insert"
@@ -48,4 +49,5 @@ const (
 	BodySize     ExtraKey = "BodySize"
 	Body         ExtraKey = "Body"
 	ErrorMessage ExtraKey = "ErrorMessage"
+	ResponseBody ExtraKey = "ResponseBody"
 )

@@ -11,6 +11,7 @@ import (
 
 func InitServer(config *config.Config, log logger.Logger) {
 	r := gin.Default()
+	r.Use(middlewares.DefaultMiddlwareLogger(config))
 	r.Use(middlewares.Cors(config))
 	err := r.Run(fmt.Sprintf(":%s", config.Server.Port))
 	if err != nil {
