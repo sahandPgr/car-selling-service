@@ -14,9 +14,10 @@ var dbClient *gorm.DB
 
 // This function initialze the Postgres database
 func InitialDB(config *config.Config, log logger.Logger) {
+	var err error
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=Asia/Tehran",
 		config.Postgres.Host, config.Postgres.User, config.Postgres.Password, config.Postgres.Dbname, config.Postgres.Port, config.Postgres.SslMode)
-	dbClient, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	dbClient, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(logger.Potgres, logger.Startup, nil, "Failed to connect to Postgres")
 	}

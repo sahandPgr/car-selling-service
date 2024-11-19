@@ -5,6 +5,7 @@ import (
 	"github.com/sahandPgr/car-selling-service/config"
 	"github.com/sahandPgr/car-selling-service/internal/cache"
 	"github.com/sahandPgr/car-selling-service/internal/db"
+	"github.com/sahandPgr/car-selling-service/internal/db/migrations"
 	"github.com/sahandPgr/car-selling-service/pkg/logger"
 )
 
@@ -15,5 +16,6 @@ func main() {
 	defer cache.CloseRedisClient()
 	db.InitialDB(config, log)
 	defer db.CloseDB()
+	migrations.Up_1(log)
 	api.InitServer(config, log)
 }

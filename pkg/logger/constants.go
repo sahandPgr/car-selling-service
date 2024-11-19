@@ -16,7 +16,8 @@ const (
 
 // SubCategory constants
 const (
-	Api SubCategory = "Api"
+	Api       SubCategory = "Api"
+	Migration SubCategory = "MMigration"
 	//Postgres
 	Select SubCategory = "Select"
 	Insert SubCategory = "Insert"
