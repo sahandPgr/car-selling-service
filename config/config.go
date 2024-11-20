@@ -16,6 +16,7 @@ type Config struct {
 	Log      LogConfig
 	Cors     CorsConfig
 	Password PasswordConfig
+	Otp      OtpConfig
 }
 
 // Define the Server struct
@@ -72,6 +73,12 @@ type PasswordConfig struct {
 // Get Cors Config
 type CorsConfig struct {
 	AllowOrigins string
+}
+
+type OtpConfig struct {
+	ExpireTime time.Duration
+	Limiter    time.Duration
+	Digits     int
 }
 
 // Get config function

@@ -32,3 +32,8 @@ redis:
   dialTimeout : 10
   poolSize: 10
   poolTimeout: 30
+
+otp:
+  expireTime: 120
+  digits: 6
+  limiter: 100

@@ -1,6 +1,10 @@
 package utils
 
 import (
+	"math"
+	"math/rand"
+	"strconv"
+	"time"
 	"unicode"
 
 	"github.com/sahandPgr/car-selling-service/config"
@@ -35,6 +39,16 @@ func CheckPasswordValid(pass string) bool {
 	}
 
 	return true
+}
+
+// this function generate otp
+func GenerateOtp(config *config.Config) string {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	min := int(math.Pow(10, float64(config.Otp.Digits-1)))
+	max := int(math.Pow(10, float64(config.Otp.Digits)) - 1)
+	res := r.Intn(max-min) + min
+
+	return strconv.Itoa(res)
 }
 
 // HasDigit function for check password has digit or not
