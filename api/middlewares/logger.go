@@ -30,11 +30,11 @@ func DefaultMiddlwareLogger(config *config.Config) gin.HandlerFunc {
 	return loggerMiddleware(log)
 }
 
+// This function logs the request and response
 func loggerMiddleware(log logger.Logger) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if strings.Contains(ctx.FullPath(), "swagger") {
 			ctx.Next()
-			return
 		} else {
 			responseWriter := &ResponseLogWriter{body: bytes.NewBufferString(""), ResponseWriter: ctx.Writer}
 			start := time.Now()

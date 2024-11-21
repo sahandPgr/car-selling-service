@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/sahandPgr/car-selling-service/api/dto"
 	"github.com/sahandPgr/car-selling-service/api/helper"
@@ -38,8 +36,8 @@ func (h *UserHandler) SendOtp(c *gin.Context) {
 	var dto = new(dto.GetOtpRequest)
 	err := c.ShouldBindJSON(dto)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest,
-			helper.GetBaseHttpResponseWithValidation(nil, false, http.StatusBadRequest, err))
+		c.AbortWithStatusJSON(int(helper.BadRequest),
+			helper.GetBaseHttpResponseWithValidation(nil, false, helper.BadRequest, err))
 		return
 	}
 
@@ -47,9 +45,9 @@ func (h *UserHandler) SendOtp(c *gin.Context) {
 	if err != nil {
 		statusCode := helper.ConvertServiceErrorToStatusCode(err)
 		c.AbortWithStatusJSON(statusCode,
-			helper.GetBaseHttpResponseWithError(nil, false, statusCode, err))
+			helper.GetBaseHttpResponseWithError(nil, false, helper.Conflict, err))
 		return
 	}
 
-	c.JSON(http.StatusCreated, helper.GetBaseHttpResponse(nil, true, http.StatusCreated))
+	c.JSON(int(helper.Created), helper.GetBaseHttpResponse(nil, true, helper.Created))
 }

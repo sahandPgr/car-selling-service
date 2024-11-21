@@ -13,7 +13,7 @@ definitions:
       error: {}
       result: {}
       'statusCode:':
-        type: integer
+        $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.ResultCode'
       success:
         type: boolean
       validationErrors:
@@ -21,6 +21,24 @@ definitions:
           $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_validations.ValidationError'
         type: array
     type: object
+  github_com_sahandPgr_car-selling-service_api_helper.ResultCode:
+    enum:
+    - 200
+    - 201
+    - 400
+    - 500
+    - 409
+    - 404
+    - 429
+    type: integer
+    x-enum-varnames:
+    - Success
+    - Created
+    - BadRequest
+    - InternalServerError
+    - Conflict
+    - NotFound
+    - TooManyRequests
   github_com_sahandPgr_car-selling-service_api_validations.ValidationError:
     properties:
       field:

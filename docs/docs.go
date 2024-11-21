@@ -82,7 +82,7 @@ const docTemplate = `{
                 "error": {},
                 "result": {},
                 "statusCode:": {
-                    "type": "integer"
+                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.ResultCode"
                 },
                 "success": {
                     "type": "boolean"
@@ -94,6 +94,27 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "github_com_sahandPgr_car-selling-service_api_helper.ResultCode": {
+            "type": "integer",
+            "enum": [
+                200,
+                201,
+                400,
+                500,
+                409,
+                404,
+                429
+            ],
+            "x-enum-varnames": [
+                "Success",
+                "Created",
+                "BadRequest",
+                "InternalServerError",
+                "Conflict",
+                "NotFound",
+                "TooManyRequests"
+            ]
         },
         "github_com_sahandPgr_car-selling-service_api_validations.ValidationError": {
             "type": "object",

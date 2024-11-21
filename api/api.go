@@ -20,8 +20,7 @@ import (
 func InitServer(config *config.Config, log logger.Logger) {
 	r := gin.Default()
 	registerValidators(log)
-	r.Use(middlewares.DefaultMiddlwareLogger(config))
-	r.Use(middlewares.Cors(config))
+	r.Use(middlewares.DefaultMiddlwareLogger(config), middlewares.Cors(config))
 	registerRoutes(r, config)
 	registerSwagger(r, config)
 	err := r.Run(fmt.Sprintf(":%s", config.Server.Port))
