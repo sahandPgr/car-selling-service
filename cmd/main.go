@@ -9,6 +9,9 @@ import (
 	"github.com/sahandPgr/car-selling-service/pkg/logger"
 )
 
+// @securityDefinitions.apikey AuthBearer
+// @in header
+// @name Authorization
 func main() {
 	config := config.GetConfig()
 	log := logger.NewLogger(config)

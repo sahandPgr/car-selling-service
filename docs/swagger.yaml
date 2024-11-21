@@ -1,0 +1,75 @@
+definitions:
+  github_com_sahandPgr_car-selling-service_api_dto.GetOtpRequest:
+    properties:
+      mobileNumber:
+        maxLength: 11
+        minLength: 11
+        type: string
+    required:
+    - mobileNumber
+    type: object
+  github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse:
+    properties:
+      error: {}
+      result: {}
+      'statusCode:':
+        type: integer
+      success:
+        type: boolean
+      validationErrors:
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_validations.ValidationError'
+        type: array
+    type: object
+  github_com_sahandPgr_car-selling-service_api_validations.ValidationError:
+    properties:
+      field:
+        type: string
+      message:
+        type: string
+      param:
+        type: string
+      tag:
+        type: string
+      value:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/user/send-otp:
+    post:
+      consumes:
+      - application/json
+      description: Send otp
+      parameters:
+      - description: GetOtpRequest
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.GetOtpRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      summary: Send otp
+      tags:
+      - Users
+securityDefinitions:
+  AuthBearer:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

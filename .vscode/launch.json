@@ -12,6 +12,7 @@
             "mode": "auto",
             "program": "${workspaceFolder}/cmd",
             "cwd": "${workspaceFolder}",
+            "preLaunchTask": "swag"
         }
     ]
 }
