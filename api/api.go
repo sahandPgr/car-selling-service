@@ -10,16 +10,19 @@ import (
 	"github.com/sahandPgr/car-selling-service/api/routes"
 	"github.com/sahandPgr/car-selling-service/api/validations"
 	"github.com/sahandPgr/car-selling-service/config"
+	"github.com/sahandPgr/car-selling-service/docs"
 	"github.com/sahandPgr/car-selling-service/pkg/logger"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // This function initializes the server
 func InitServer(config *config.Config, log logger.Logger) {
 	r := gin.Default()
 	registerValidators(log)
-	r.Use(middlewares.DefaultMiddlwareLogger(config))
-	r.Use(middlewares.Cors(config))
+	r.Use(middlewares.DefaultMiddlwareLogger(config), middlewares.Cors(config))
 	registerRoutes(r, config)
+	registerSwagger(r, config)
 	err := r.Run(fmt.Sprintf(":%s", config.Server.Port))
 	if err != nil {
 		log.Fatal(logger.General, logger.Startup, nil, "Failed to start server")
@@ -50,4 +53,14 @@ func registerValidators(log logger.Logger) {
 		}
 
 	}
+}
+
+func registerSwagger(r *gin.Engine, config *config.Config) {
+	docs.SwaggerInfo.Title = "Car Selling Service"
+	docs.SwaggerInfo.Description = "Car Selling Service API"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.BasePath = "/api"
+	docs.SwaggerInfo.Schemes = []string{"http"}
+	docs.SwaggerInfo.Host = fmt.Sprintf("%s:%s", "localhost", config.Server.Port)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

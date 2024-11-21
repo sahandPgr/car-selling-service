@@ -1,0 +1,136 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/v1/user/send-otp": {
+            "post": {
+                "description": "Send otp",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Send otp",
+                "parameters": [
+                    {
+                        "description": "GetOtpRequest",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.GetOtpRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "github_com_sahandPgr_car-selling-service_api_dto.GetOtpRequest": {
+            "type": "object",
+            "required": [
+                "mobileNumber"
+            ],
+            "properties": {
+                "mobileNumber": {
+                    "type": "string",
+                    "maxLength": 11,
+                    "minLength": 11
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse": {
+            "type": "object",
+            "properties": {
+                "error": {},
+                "result": {},
+                "statusCode:": {
+                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.ResultCode"
+                },
+                "success": {
+                    "type": "boolean"
+                },
+                "validationErrors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_validations.ValidationError"
+                    }
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_helper.ResultCode": {
+            "type": "integer",
+            "enum": [
+                200,
+                201,
+                400,
+                500,
+                409,
+                404,
+                429
+            ],
+            "x-enum-varnames": [
+                "Success",
+                "Created",
+                "BadRequest",
+                "InternalServerError",
+                "Conflict",
+                "NotFound",
+                "TooManyRequests"
+            ]
+        },
+        "github_com_sahandPgr_car-selling-service_api_validations.ValidationError": {
+            "type": "object",
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "param": {
+                    "type": "string"
+                },
+                "tag": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "AuthBearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

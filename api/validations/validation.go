@@ -12,6 +12,7 @@ type ValidationError struct {
 	Field   string `json:"field"`
 	Tag     string `json:"tag"`
 	Value   string `json:"value"`
+	Param   string `json:"param"`
 	Message string `json:"message"`
 }
 
@@ -24,7 +25,8 @@ func GetValidationErrors(err error) *[]ValidationError {
 			var elm ValidationError
 			elm.Field = er.Field()
 			elm.Tag = er.Tag()
-			elm.Value = er.Param()
+			elm.Param = er.Param()
+			elm.Value = er.Value().(string)
 			elm.Message = er.Error()
 			validationErrors = append(validationErrors, elm)
 		}
