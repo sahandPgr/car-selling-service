@@ -17,6 +17,7 @@ type Config struct {
 	Cors     CorsConfig
 	Password PasswordConfig
 	Otp      OtpConfig
+	Jwt      JwtConfig
 }
 
 // Define the Server struct
@@ -70,15 +71,24 @@ type PasswordConfig struct {
 	IncludeLowercase  bool
 }
 
-// Get Cors Config
+// Define the Cors Config
 type CorsConfig struct {
 	AllowOrigins string
 }
 
+// Define the otp struct
 type OtpConfig struct {
 	ExpireTime time.Duration
 	Limiter    time.Duration
 	Digits     int
+}
+
+// Define the jwt struct
+type JwtConfig struct {
+	AccessTokenExpireDuration  time.Duration
+	RefreshTokenExpireDuration time.Duration
+	Secret                     string
+	RefreshSecret              string
 }
 
 // Get config function
