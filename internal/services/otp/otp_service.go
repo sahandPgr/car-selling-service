@@ -39,7 +39,7 @@ func NewOtpService(config *config.Config) *OtpService {
 // This function sets the otp
 func (s *OtpService) SetOtp(otp string, number string) error {
 	key := fmt.Sprintf("%s:%s", constatns.RedisOtpDefaultKey, number)
-	val := OtpData{
+	val := &OtpData{
 		Value: otp,
 		Used:  false,
 	}

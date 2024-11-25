@@ -8,6 +8,55 @@ definitions:
     required:
     - mobileNumber
     type: object
+  github_com_sahandPgr_car-selling-service_api_dto.LoginByUsernameRequest:
+    properties:
+      password:
+        minLength: 6
+        type: string
+      username:
+        minLength: 5
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.RegisterLoginByMobileRequest:
+    properties:
+      otp:
+        maxLength: 6
+        minLength: 6
+        type: string
+      phoneMobile:
+        maxLength: 11
+        minLength: 11
+        type: string
+    required:
+    - otp
+    - phoneMobile
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.RegisterUserByUsernameRequest:
+    properties:
+      email:
+        minLength: 6
+        type: string
+      'firstName:':
+        minLength: 3
+        type: string
+      'lastName:':
+        minLength: 6
+        type: string
+      password:
+        minLength: 6
+        type: string
+      username:
+        minLength: 5
+        type: string
+    required:
+    - 'firstName:'
+    - 'lastName:'
+    - password
+    - username
+    type: object
   github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse:
     properties:
       error: {}
@@ -55,6 +104,96 @@ definitions:
 info:
   contact: {}
 paths:
+  /v1/user/login-by-username:
+    post:
+      consumes:
+      - application/json
+      description: LoginByUsername
+      parameters:
+      - description: LoginByUsernameRequest
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.LoginByUsernameRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      summary: LoginByUsername
+      tags:
+      - Users
+  /v1/user/register-by-username:
+    post:
+      consumes:
+      - application/json
+      description: RegisterByUsername
+      parameters:
+      - description: RegisterUserByUsernameRequest
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.RegisterUserByUsernameRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      summary: RegisterByUsername
+      tags:
+      - Users
+  /v1/user/register-login-by-phone:
+    post:
+      consumes:
+      - application/json
+      description: RegisterLoginByMobile
+      parameters:
+      - description: RegisterLoginByMobileRequest
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.RegisterLoginByMobileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      summary: RegisterLoginByMobile
+      tags:
+      - Users
   /v1/user/send-otp:
     post:
       consumes:
