@@ -24,6 +24,12 @@ type UserService struct {
 	jwt      *jwt.JwtService
 }
 
+// PassChecker is a struct for password checker
+type PassChecker struct {
+	checker bool   `default:"false"`
+	pass    string `default:""`
+}
+
 // This function creates a new user service
 func NewUserService(config *config.Config) *UserService {
 	return &UserService{
@@ -37,177 +43,79 @@ func NewUserService(config *config.Config) *UserService {
 
 // Register a new user
 func (s *UserService) RegisterByUsername(req *dto.RegisterUserByUsernameRequest) error {
-	exist, err := s.existsByEmail(req.Email)
-	if err != nil {
-		return err
-	}
-	if exist {
+	// Check user's email is exist or not
+	if exist := s.existsByEmail(req.Email); exist {
 		return &serviceerrors.ServiceError{EndUserMessage: serviceerrors.EmailExists}
 	}
-	exist, err = s.existsByUsername(req.UserName)
-	if err != nil {
-		return err
-	}
-	if exist {
+	// Check user's username is exist or not
+	if exist := s.existsByUsername(req.UserName); exist {
 		return &serviceerrors.ServiceError{EndUserMessage: serviceerrors.UsernameExists}
 	}
 
-	user := &models.User{
-		FirstName: req.FirstName,
-		LastName:  req.LastName,
-		Username:  req.UserName,
-		Email:     req.Email,
-	}
+	user := new(models.User)
+	user.FirstName = req.FirstName
+	user.LastName = req.LastName
+	user.Username = req.UserName
+	user.Email = req.Email
+
 	passHashed, err := utils.HashedPassword(req.Password)
 	if err != nil {
 		return err
 	}
 	user.Password = string(passHashed)
-	roleId, err := s.getDefaultRole()
-	if err != nil {
-		return err
-	}
+	roleId := s.getDefaultRole()
 	tx := s.database.Begin()
-	err = tx.Create(user).Error
-	if err != nil {
+	if err = tx.Create(user).Error; err != nil {
 		tx.Rollback()
 		return err
 	}
-	err = tx.Create(&models.UserRole{RoleId: roleId, UserId: user.ID}).Error
-	if err != nil {
+
+	if err = tx.Create(&models.UserRole{RoleId: roleId, UserId: user.ID}).Error; err != nil {
 		tx.Rollback()
 		return err
 	}
 	tx.Commit()
+
 	return nil
 }
 
+// Register or login a new user by mobile number
 func (s *UserService) RegisterLoginByMobile(req *dto.RegisterLoginByMobileRequest) (*dto.TokenDetail, error) {
-	err := s.otp.ValidatetOtp(req.Otp, req.PhoneMobile)
-	if err != nil {
+	if err := s.otp.ValidatetOtp(req.Otp, req.PhoneMobile); err != nil {
 		return nil, err
 	}
-	exist, err := s.existsByMobileNumber(req.PhoneMobile)
-	user := models.User{
-		PhoneMobile: req.PhoneMobile, Username: req.PhoneMobile,
-	}
+
+	exist := s.existsByMobileNumber(req.PhoneMobile)
+	user := new(models.User)
+	user.PhoneMobile = req.PhoneMobile
+	user.Username = req.PhoneMobile
+
 	if exist {
 		// login
-		var u models.User
-		err = s.database.Model(&models.User{}).
-			Where("username = ?", user.Username).
-			Preload("UserRoles", func(tx *gorm.DB) *gorm.DB {
-				return tx.Preload("Role")
-			}).
-			Find(&u).Error
-		if err != nil {
-			return nil, err
-		}
-		tokenDto := jwt.TokenDto{
-			UserrId:     u.ID,
-			Username:    u.Username,
-			FirstName:   u.FirstName,
-			LastName:    u.LastName,
-			Email:       u.Email,
-			PhoneNumber: u.PhoneMobile,
-		}
-		if len(*u.UserRoles) > 0 {
-			for _, userRole := range *u.UserRoles {
-				tokenDto.Roles = append(tokenDto.Roles, userRole.Role.Name)
-			}
-		}
-		token, err := s.jwt.GenerateToken(&tokenDto)
-		if err != nil {
-			return nil, err
-		}
-		return token, nil
-
+		return s.prepareToken(req.PhoneMobile, PassChecker{checker: false, pass: ""})
 	}
 
 	user.Password = string(utils.GeneratePassword())
-	roleId, err := s.getDefaultRole()
-	if err != nil {
-		return nil, err
-	}
+	roleId := s.getDefaultRole()
+
 	tx := s.database.Begin()
-	err = tx.Create(&user).Error
-	if err != nil {
+	if err := tx.Create(&user).Error; err != nil {
 		tx.Rollback()
 		return nil, err
 	}
-	err = tx.Create(&models.UserRole{RoleId: roleId, UserId: user.ID}).Error
-	if err != nil {
+	if err := tx.Create(&models.UserRole{RoleId: roleId, UserId: user.ID}).Error; err != nil {
 		tx.Rollback()
 		return nil, err
 	}
+
 	tx.Commit()
-	var us models.User
-	err = s.database.Model(&models.User{}).
-		Where("username = ?", user.Username).
-		Preload("UserRoles", func(tx *gorm.DB) *gorm.DB {
-			return tx.Preload("Role")
-		}).
-		Find(&us).Error
-	if err != nil {
-		return nil, err
-	}
-	tokenDto := jwt.TokenDto{
-		UserrId:     user.ID,
-		Username:    user.Username,
-		FirstName:   user.FirstName,
-		LastName:    user.LastName,
-		Email:       user.Email,
-		PhoneNumber: user.PhoneMobile,
-	}
-	if len(*us.UserRoles) > 0 {
-		for _, userRole := range *us.UserRoles {
-			tokenDto.Roles = append(tokenDto.Roles, userRole.Role.Name)
-		}
-	}
-	token, err := s.jwt.GenerateToken(&tokenDto)
-	if err != nil {
-		return nil, err
-	}
 
-	return token, nil
-
+	return s.prepareToken(req.PhoneMobile, PassChecker{checker: false, pass: ""})
 }
 
+// Login by username
 func (s *UserService) LoginByUsername(req *dto.LoginByUsernameRequest) (*dto.TokenDetail, error) {
-	var user models.User
-	err := s.database.Model(&models.User{}).
-		Where("username = ?", req.Username).
-		Preload("UserRoles", func(tx *gorm.DB) *gorm.DB {
-			return tx.Preload("Role")
-		}).
-		Find(&user).Error
-	if err != nil {
-		return nil, err
-	}
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
-	if err != nil {
-		return nil, err
-	}
-	tokenDto := jwt.TokenDto{
-		UserrId:     user.ID,
-		Username:    user.Username,
-		FirstName:   user.FirstName,
-		LastName:    user.LastName,
-		Email:       user.Email,
-		PhoneNumber: user.PhoneMobile,
-	}
-	if len(*user.UserRoles) > 0 {
-		for _, userRole := range *user.UserRoles {
-			tokenDto.Roles = append(tokenDto.Roles, userRole.Role.Name)
-		}
-	}
-	token, err := s.jwt.GenerateToken(&tokenDto)
-	if err != nil {
-		return nil, err
-	}
-
-	return token, nil
-
+	return s.prepareToken(req.Username, PassChecker{checker: true, pass: req.Password})
 }
 
 // This function sends otp
@@ -222,7 +130,7 @@ func (s *UserService) SendOtp(dto *dto.GetOtpRequest) error {
 }
 
 // Check user's email is exist or not
-func (s *UserService) existsByEmail(email string) (bool, error) {
+func (s *UserService) existsByEmail(email string) bool {
 	var exists bool
 	if err := s.database.Model(&models.User{}).
 		Select("count(*) > 0").
@@ -230,14 +138,14 @@ func (s *UserService) existsByEmail(email string) (bool, error) {
 		Find(&exists).
 		Error; err != nil {
 		s.log.Error(logger.Potgres, logger.Select, nil, err.Error())
-		return false, err
+		return false
 	}
 
-	return exists, nil
+	return exists
 }
 
 // Check user's username is exist or not
-func (s *UserService) existsByUsername(username string) (bool, error) {
+func (s *UserService) existsByUsername(username string) bool {
 	var exists bool
 	if err := s.database.Model(&models.User{}).
 		Select("count(*) > 0").
@@ -245,14 +153,14 @@ func (s *UserService) existsByUsername(username string) (bool, error) {
 		Find(&exists).
 		Error; err != nil {
 		s.log.Error(logger.Potgres, logger.Select, nil, err.Error())
-		return false, err
+		return false
 	}
 
-	return exists, nil
+	return exists
 }
 
 // Check user's mobile number is exist or not
-func (s *UserService) existsByMobileNumber(number string) (bool, error) {
+func (s *UserService) existsByMobileNumber(number string) bool {
 	var exists bool
 	if err := s.database.Model(&models.User{}).
 		Select("count(*) > 0").
@@ -260,22 +168,57 @@ func (s *UserService) existsByMobileNumber(number string) (bool, error) {
 		Find(&exists).
 		Error; err != nil {
 		s.log.Error(logger.Potgres, logger.Select, nil, err.Error())
-		return false, err
+		return false
 	}
 
-	return exists, nil
+	return exists
 }
 
 // Set Default role for each user
-func (s *UserService) getDefaultRole() (roleId int, err error) {
-	if err = s.database.Model(&models.Role{}).
+func (s *UserService) getDefaultRole() (roleId int) {
+	if err := s.database.Model(&models.Role{}).
 		Select("id").
 		Where("name = ?", constatns.DefaultUserRole).
 		First(&roleId).
 		Error; err != nil {
 		s.log.Error(logger.Potgres, logger.Select, nil, err.Error())
-		return 0, err
+		return 0
 	}
 
-	return roleId, nil
+	return roleId
+}
+
+// This function prepares token for user
+func (s *UserService) prepareToken(username string, passChecker PassChecker) (token *dto.TokenDetail, err error) {
+	u := new(models.User)
+	if err = s.database.Model(&models.User{}).
+		Where("username = ?", username).
+		Preload("UserRoles", func(tx *gorm.DB) *gorm.DB {
+			return tx.Preload("Role")
+		}).Find(&u).Error; err != nil {
+		return nil, err
+	}
+	if passChecker.checker {
+		if err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(passChecker.pass)); err != nil {
+			return nil, err
+		}
+	}
+	tokenDto := new(jwt.TokenDto)
+	tokenDto.UserrId = u.ID
+	tokenDto.Username = u.Username
+	tokenDto.FirstName = u.FirstName
+	tokenDto.LastName = u.LastName
+	tokenDto.Email = u.Email
+	tokenDto.PhoneNumber = u.PhoneMobile
+
+	if len(*u.UserRoles) > 0 {
+		for _, userRole := range *u.UserRoles {
+			tokenDto.Roles = append(tokenDto.Roles, userRole.Role.Name)
+		}
+	}
+	token, err = s.jwt.GenerateToken(tokenDto)
+	if err != nil {
+		return nil, err
+	}
+	return token, nil
 }
