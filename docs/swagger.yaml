@@ -79,6 +79,7 @@ definitions:
     - 409
     - 404
     - 429
+    - 401
     type: integer
     x-enum-varnames:
     - Success
@@ -88,6 +89,7 @@ definitions:
     - Conflict
     - NotFound
     - TooManyRequests
+    - Unauthorized
   github_com_sahandPgr_car-selling-service_api_validations.ValidationError:
     properties:
       field:

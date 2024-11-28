@@ -1,13 +1,13 @@
 package helper
 
-type ResultCode int
-
 const (
-	Success             ResultCode = 200
-	Created             ResultCode = 201
-	BadRequest          ResultCode = 400
-	InternalServerError ResultCode = 500
-	Conflict            ResultCode = 409
-	NotFound            ResultCode = 404
-	TooManyRequests     ResultCode = 429
+	Success             int = 200
+	Created             int = 201
+	BadRequest          int = 400
+	InternalServerError int = 500
+	Conflict            int = 409
+	NotFound            int = 404
+	TooManyRequests     int = 429
+	Unauthorized        int = 401
+	SatusForbidden      int = 403
 )

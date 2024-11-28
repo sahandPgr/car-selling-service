@@ -12,4 +12,9 @@ const (
 	ClaimsNotFound  = "claims not found"
 	EmailExists     = "email exists"
 	UsernameExists  = "username exists"
+
+	//Auth
+	TokenRequired = "token required"
+	TokenExpired  = "token expired"
+	TokenInvalid  = "token invalid"
 )

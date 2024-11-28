@@ -6,7 +6,7 @@ import (
 	"github.com/sahandPgr/car-selling-service/constatns"
 	"github.com/sahandPgr/car-selling-service/internal/db"
 	"github.com/sahandPgr/car-selling-service/internal/models"
-	"github.com/sahandPgr/car-selling-service/internal/services/jwt"
+	jwt_service "github.com/sahandPgr/car-selling-service/internal/services/jwt"
 	services "github.com/sahandPgr/car-selling-service/internal/services/otp"
 	serviceerrors "github.com/sahandPgr/car-selling-service/internal/services/service_errors"
 	"github.com/sahandPgr/car-selling-service/pkg/logger"
@@ -21,7 +21,7 @@ type UserService struct {
 	otp      *services.OtpService
 	database *gorm.DB
 	config   *config.Config
-	jwt      *jwt.JwtService
+	jwt      *jwt_service.JwtService
 }
 
 // PassChecker is a struct for password checker
@@ -37,7 +37,7 @@ func NewUserService(config *config.Config) *UserService {
 		otp:      services.NewOtpService(config),
 		database: db.GetDB(),
 		config:   config,
-		jwt:      jwt.NewJwtService(config),
+		jwt:      jwt_service.NewJwtService(config),
 	}
 }
 
@@ -203,7 +203,7 @@ func (s *UserService) prepareToken(username string, passChecker PassChecker) (to
 			return nil, err
 		}
 	}
-	tokenDto := new(jwt.TokenDto)
+	tokenDto := new(jwt_service.TokenDto)
 	tokenDto.UserrId = u.ID
 	tokenDto.Username = u.Username
 	tokenDto.FirstName = u.FirstName

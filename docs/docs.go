@@ -309,7 +309,8 @@ const docTemplate = `{
                 500,
                 409,
                 404,
-                429
+                429,
+                401
             ],
             "x-enum-varnames": [
                 "Success",
@@ -318,7 +319,8 @@ const docTemplate = `{
                 "InternalServerError",
                 "Conflict",
                 "NotFound",
-                "TooManyRequests"
+                "TooManyRequests",
+                "Unauthorized"
             ]
         },
         "github_com_sahandPgr_car-selling-service_api_validations.ValidationError": {

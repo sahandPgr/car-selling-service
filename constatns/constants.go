@@ -1,7 +1,8 @@
 package constatns
 
 const (
-
+	//Auth header
+	AuthorizationHeaderKey string = "Authorization"
 	//User
 	DefaultUserRole    string = "default"
 	AdminRole          string = "admin"
