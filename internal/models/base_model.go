@@ -23,7 +23,7 @@ func (m *BaseModel) BeforeCreate(tx *gorm.DB) (err error) {
 	value := tx.Statement.Context.Value("UserId")
 	var userId = -1
 	if value != nil {
-		userId = value.(int)
+		userId = int(value.(float64))
 	}
 	m.CreatedAt = time.Now().UTC()
 	m.CreatedBy = userId
@@ -35,7 +35,7 @@ func (m *BaseModel) BeforeUpdate(db *gorm.DB) {
 	value := db.Statement.Context.Value("UserId")
 	var userId = &sql.NullInt64{Valid: false}
 	if value != nil {
-		userId = &sql.NullInt64{Int64: int64(value.(uint)), Valid: true}
+		userId = &sql.NullInt64{Int64: int64(value.(float64)), Valid: true}
 	}
 	m.ModifiedAt = &sql.NullTime{Time: time.Now().UTC(), Valid: true}
 	m.ModifiedBy = userId
@@ -46,7 +46,7 @@ func (m *BaseModel) BeforeDelete(db *gorm.DB) {
 	value := db.Statement.Context.Value("UserId")
 	var userId = &sql.NullInt64{Valid: false}
 	if value != nil {
-		userId = &sql.NullInt64{Int64: int64(value.(uint)), Valid: true}
+		userId = &sql.NullInt64{Int64: int64(value.(float64)), Valid: true}
 	}
 	m.DeletedAt = &sql.NullTime{Time: time.Now().UTC(), Valid: true}
 	m.DeletedBy = userId

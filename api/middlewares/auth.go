@@ -1,8 +1,6 @@
 package middlewares
 
 import (
-	"strings"
-
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 	"github.com/sahandPgr/car-selling-service/api/helper"
@@ -19,11 +17,10 @@ func Authentication(config *config.Config) gin.HandlerFunc {
 		var err error
 		tokenClaims := make(map[string]interface{})
 		authVal := ctx.GetHeader(constatns.AuthorizationHeaderKey)
-		token := strings.Split(authVal, " ")[1]
 		if authVal == "" {
 			err = &serviceerrors.ServiceError{EndUserMessage: serviceerrors.TokenRequired}
 		} else {
-			tokenClaims, err = tokenService.GetClaims(token)
+			tokenClaims, err = tokenService.GetClaims(authVal)
 			if err != nil {
 				switch err.(*jwt.ValidationError).Errors {
 				case jwt.ValidationErrorExpired:
@@ -62,10 +59,10 @@ func Authorization(validRoles []string) gin.HandlerFunc {
 			ctx.AbortWithStatusJSON(helper.SatusForbidden, helper.GetBaseHttpResponse(nil, false, helper.SatusForbidden))
 			return
 		}
-		roles := rolesVal.([]string)
+		roles := rolesVal.([]interface{})
 		rolesMap := make(map[string]int)
 		for _, role := range roles {
-			rolesMap[role] = 0
+			rolesMap[role.(string)] = 0
 		}
 		for _, item := range validRoles {
 			if _, ok := rolesMap[item]; ok {
