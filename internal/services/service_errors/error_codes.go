@@ -10,9 +10,14 @@ const (
 	//JWT
 	UnexpectedError = "unexpected error"
 	ClaimsNotFound  = "claims not found"
-	EmailExists     = "email exists"
-	UsernameExists  = "username exists"
 
+	//User
+	EmailExists      = "email exists"
+	UsernameExists   = "username exists"
+	PermissionDenied = "permission denied"
+
+	//Db
+	RecordNotFound = "record not found"
 	//Auth
 	TokenRequired = "token required"
 	TokenExpired  = "token expired"
