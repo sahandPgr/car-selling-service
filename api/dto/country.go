@@ -1,7 +1,7 @@
 package dto
 
 type CreateUpdateCountryRequest struct {
-	Name string `json:"name" binding:"required,alpha,min=3,max=20"`
+	Name string `json:"name" binding:"required,alpha,min=2,max=20"`
 }
 
 type CountryResponse struct {

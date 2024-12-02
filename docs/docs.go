@@ -460,7 +460,7 @@ const docTemplate = `{
                 "name": {
                     "type": "string",
                     "maxLength": 20,
-                    "minLength": 3
+                    "minLength": 2
                 }
             }
         },
@@ -486,7 +486,7 @@ const docTemplate = `{
             "properties": {
                 "password": {
                     "type": "string",
-                    "minLength": 4
+                    "minLength": 6
                 },
                 "username": {
                     "type": "string",

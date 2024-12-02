@@ -10,7 +10,7 @@ definitions:
     properties:
       name:
         maxLength: 20
-        minLength: 3
+        minLength: 2
         type: string
     required:
     - name
@@ -27,7 +27,7 @@ definitions:
   github_com_sahandPgr_car-selling-service_api_dto.LoginByUsernameRequest:
     properties:
       password:
-        minLength: 4
+        minLength: 6
         type: string
       username:
         minLength: 5
