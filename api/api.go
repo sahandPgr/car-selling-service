@@ -10,6 +10,7 @@ import (
 	"github.com/sahandPgr/car-selling-service/api/routes"
 	"github.com/sahandPgr/car-selling-service/api/validations"
 	"github.com/sahandPgr/car-selling-service/config"
+	"github.com/sahandPgr/car-selling-service/constatns"
 	"github.com/sahandPgr/car-selling-service/docs"
 	"github.com/sahandPgr/car-selling-service/pkg/logger"
 	swaggerFiles "github.com/swaggo/files"
@@ -36,6 +37,8 @@ func registerRoutes(r *gin.Engine, config *config.Config) {
 	{
 		user := v1.Group("/user")
 		routes.User(user, config)
+		country := v1.Group("/countries", middlewares.Authentication(config), middlewares.Authorization([]string{constatns.AdminRole}))
+		routes.Countries(country, config)
 	}
 }
 
