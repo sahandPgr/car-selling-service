@@ -86,7 +86,7 @@ func createCountry(database *gorm.DB) {
 	count := 0
 	database.Model(&models.Country{}).
 		Select(countStartExp).
-		First(&count)
+		Find(&count)
 	if count == 0 {
 		database.Create(&models.Country{Name: "Iran", Cities: []models.City{
 			{Name: "Tehran"},
