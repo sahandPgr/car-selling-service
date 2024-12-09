@@ -27,7 +27,7 @@ func NewCountriesHandler(cfg *config.Config) *CountriesHandler {
 // @Accept json
 // @Produce json
 // @Param request body dto.CreateUpdateCountryRequest true "Create a country"
-// @Success 200 {object} helper.BaseHttpResponse{result=dto.CountryResponse} "Success"
+// @Success 201 {object} helper.BaseHttpResponse{result=dto.CountryResponse} "Created"
 // @Failure 400 {object} helper.BaseHttpResponse "Failed"
 // @Failure 409 {object} helper.BaseHttpResponse "Failed"
 // @Router /v1/countries/ [post]
@@ -128,6 +128,35 @@ func (h *CountriesHandler) GetById(ctx *gin.Context) {
 		return
 	}
 	res, err := h.service.GetById(ctx, id)
+	if err != nil {
+		statusCode := helper.ConvertServiceErrorToStatusCode(err)
+		ctx.AbortWithStatusJSON(statusCode, helper.GetBaseHttpResponseWithError(nil, false, statusCode, err))
+		return
+	}
+
+	ctx.JSON(helper.Success, helper.GetBaseHttpResponse(res, true, helper.Success))
+}
+
+// GetCountries godoc
+// @Summary Get countries
+// @Description Get countries
+// @Tags Countries
+// @Accept json
+// @Produce json
+// @Param Request body dto.PaginationInputWithFilter true "Request"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.PagedList[dto.CountryResponse]} "Success"
+// @Failure 400 {object} helper.BaseHttpResponse "Failed"
+// @Failure 409 {object} helper.BaseHttpResponse "Failed"
+// @Router /v1/countries/get-by-filter [post]
+// @Security AuthBearer
+func (h *CountriesHandler) GetByFilter(ctx *gin.Context) {
+	var dto = new(dto.PaginationInputWithFilter)
+	err := ctx.ShouldBindJSON(dto)
+	if err != nil {
+		ctx.AbortWithStatusJSON(helper.BadRequest, helper.GetBaseHttpResponseWithValidation(nil, false, helper.BadRequest, err))
+		return
+	}
+	res, err := h.service.GetByFilter(ctx, dto)
 	if err != nil {
 		statusCode := helper.ConvertServiceErrorToStatusCode(err)
 		ctx.AbortWithStatusJSON(statusCode, helper.GetBaseHttpResponseWithError(nil, false, statusCode, err))

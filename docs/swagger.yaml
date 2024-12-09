@@ -1,6 +1,19 @@
 definitions:
+  github_com_sahandPgr_car-selling-service_api_dto.CityResponse:
+    properties:
+      country:
+        $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CountryResponse'
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.CountryResponse:
     properties:
+      cities:
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CityResponse'
+        type: array
       id:
         type: integer
       name:
@@ -14,6 +27,21 @@ definitions:
         type: string
     required:
     - name
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.Filter:
+    properties:
+      filterType:
+        description: FilterType specifies the category of filter (e.g., "date", "number").
+        type: string
+      from:
+        description: From specifies the starting value for the filter range.
+        type: string
+      to:
+        description: To specifies the ending value for the filter range.
+        type: string
+      type:
+        description: Type specifies the type of filter (e.g., "range").
+        type: string
     type: object
   github_com_sahandPgr_car-selling-service_api_dto.GetOtpRequest:
     properties:
@@ -35,6 +63,48 @@ definitions:
     required:
     - password
     - username
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CountryResponse:
+    properties:
+      hasNextPage:
+        description: HasNextPage indicates whether there is a next page.
+        type: boolean
+      hasPerviousPage:
+        description: HasPerviousPage indicates whether there is a previous page.
+        type: boolean
+      items:
+        description: Items contains the list of items for the current page.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CountryResponse'
+        type: array
+      pageNumber:
+        description: PageNumber is the current page number.
+        type: integer
+      totalPages:
+        description: TotalPages is the total number of pages available.
+        type: integer
+      totalRows:
+        description: TotalRows is the total number of rows available.
+        type: integer
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter:
+    properties:
+      filter:
+        additionalProperties:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.Filter'
+        description: Filter contains a map of column IDs to their filter configurations.
+        type: object
+      pageNumber:
+        description: PageNumber specifies the current page number.
+        type: integer
+      pageSize:
+        description: PageSize specifies the number of items per page.
+        type: integer
+      sort:
+        description: Sort contains a list of sorting options.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.Sort'
+        type: array
     type: object
   github_com_sahandPgr_car-selling-service_api_dto.RegisterLoginByMobileRequest:
     properties:
@@ -72,6 +142,15 @@ definitions:
     - 'lastName:'
     - password
     - username
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.Sort:
+    properties:
+      col_id:
+        description: ColId specifies the column to sort.
+        type: string
+      sort:
+        description: Sort specifies the sorting direction (e.g., "asc" or "desc").
+        type: string
     type: object
   github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse:
     properties:
@@ -117,8 +196,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Success
+        "201":
+          description: Created
           schema:
             allOf:
             - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
@@ -244,6 +323,43 @@ paths:
       security:
       - AuthBearer: []
       summary: Update a country
+      tags:
+      - Countries
+  /v1/countries/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: Get countries
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CountryResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get countries
       tags:
       - Countries
   /v1/user/login-by-username:

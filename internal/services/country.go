@@ -7,19 +7,19 @@ import (
 	"github.com/sahandPgr/car-selling-service/config"
 	"github.com/sahandPgr/car-selling-service/internal/db"
 	"github.com/sahandPgr/car-selling-service/internal/models"
-	services "github.com/sahandPgr/car-selling-service/internal/services/base_service"
 	"github.com/sahandPgr/car-selling-service/pkg/logger"
 )
 
 type CountryService struct {
-	base *services.BaseService[models.Country, dto.CreateUpdateCountryRequest, dto.CreateUpdateCountryRequest, dto.CountryResponse]
+	base *BaseService[models.Country, dto.CreateUpdateCountryRequest, dto.CreateUpdateCountryRequest, dto.CountryResponse]
 }
 
 func NewCountryService(cfg *config.Config) *CountryService {
 	return &CountryService{
-		base: &services.BaseService[models.Country, dto.CreateUpdateCountryRequest, dto.CreateUpdateCountryRequest, dto.CountryResponse]{
+		base: &BaseService[models.Country, dto.CreateUpdateCountryRequest, dto.CreateUpdateCountryRequest, dto.CountryResponse]{
 			Database: db.GetDB(),
 			Log:      logger.NewLogger(cfg),
+			Preloads: []Preload{{string: "Cities"}},
 		},
 	}
 }
@@ -42,4 +42,8 @@ func (s *CountryService) Delete(ctx context.Context, id int) (err error) {
 // Get by Id
 func (s *CountryService) GetById(ctx context.Context, id int) (res *dto.CountryResponse, err error) {
 	return s.base.GetById(ctx, id)
+}
+
+func (s *CountryService) GetByFilter(ctx context.Context, req *dto.PaginationInputWithFilter) (*dto.PagedList[dto.CountryResponse], error) {
+	return s.base.GetByFilter(ctx, req)
 }

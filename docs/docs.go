@@ -45,6 +45,69 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CountryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/countries/get-by-filter": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get countries",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get countries",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter"
+                        }
+                    }
+                ],
+                "responses": {
                     "200": {
                         "description": "Success",
                         "schema": {
@@ -56,7 +119,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "result": {
-                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CountryResponse"
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CountryResponse"
                                         }
                                     }
                                 }
@@ -440,9 +503,29 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "github_com_sahandPgr_car-selling-service_api_dto.CityResponse": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CountryResponse"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "github_com_sahandPgr_car-selling-service_api_dto.CountryResponse": {
             "type": "object",
             "properties": {
+                "cities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CityResponse"
+                    }
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -461,6 +544,27 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 20,
                     "minLength": 2
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.Filter": {
+            "type": "object",
+            "properties": {
+                "filterType": {
+                    "description": "FilterType specifies the category of filter (e.g., \"date\", \"number\").",
+                    "type": "string"
+                },
+                "from": {
+                    "description": "From specifies the starting value for the filter range.",
+                    "type": "string"
+                },
+                "to": {
+                    "description": "To specifies the ending value for the filter range.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Type specifies the type of filter (e.g., \"range\").",
+                    "type": "string"
                 }
             }
         },
@@ -491,6 +595,65 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "minLength": 5
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CountryResponse": {
+            "type": "object",
+            "properties": {
+                "hasNextPage": {
+                    "description": "HasNextPage indicates whether there is a next page.",
+                    "type": "boolean"
+                },
+                "hasPerviousPage": {
+                    "description": "HasPerviousPage indicates whether there is a previous page.",
+                    "type": "boolean"
+                },
+                "items": {
+                    "description": "Items contains the list of items for the current page.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CountryResponse"
+                    }
+                },
+                "pageNumber": {
+                    "description": "PageNumber is the current page number.",
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "description": "TotalPages is the total number of pages available.",
+                    "type": "integer"
+                },
+                "totalRows": {
+                    "description": "TotalRows is the total number of rows available.",
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter": {
+            "type": "object",
+            "properties": {
+                "filter": {
+                    "description": "Filter contains a map of column IDs to their filter configurations.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.Filter"
+                    }
+                },
+                "pageNumber": {
+                    "description": "PageNumber specifies the current page number.",
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "description": "PageSize specifies the number of items per page.",
+                    "type": "integer"
+                },
+                "sort": {
+                    "description": "Sort contains a list of sorting options.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.Sort"
+                    }
                 }
             }
         },
@@ -541,6 +704,19 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "minLength": 5
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.Sort": {
+            "type": "object",
+            "properties": {
+                "col_id": {
+                    "description": "ColId specifies the column to sort.",
+                    "type": "string"
+                },
+                "sort": {
+                    "description": "Sort specifies the sorting direction (e.g., \"asc\" or \"desc\").",
+                    "type": "string"
                 }
             }
         },
