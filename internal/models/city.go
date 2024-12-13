@@ -5,5 +5,6 @@ type City struct {
 	BaseModel
 	Name      string `gorm:"size:15;type:string;not null"`
 	CountryId uint
-	Country   Country `gorm:"foreignKey:CountryId"`
+	Country   Country `gorm:"foreignKey:CountryId;constraint:OnDelete:No Action;OnUpdate:No Action"`
+	Companies []Company
 }
