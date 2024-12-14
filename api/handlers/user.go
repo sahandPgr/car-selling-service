@@ -5,7 +5,7 @@ import (
 	"github.com/sahandPgr/car-selling-service/api/dto"
 	"github.com/sahandPgr/car-selling-service/api/helper"
 	"github.com/sahandPgr/car-selling-service/config"
-	services "github.com/sahandPgr/car-selling-service/internal/services/user_service"
+	"github.com/sahandPgr/car-selling-service/internal/services"
 )
 
 // UserHandler is a struct for user handler
