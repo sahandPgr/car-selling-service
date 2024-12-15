@@ -18,4 +18,6 @@ const (
 	PhoneNumber   string = "PhoneNumber"
 	Roles         string = "Roles"
 	ExpireTimeKey string = "Exp"
+	//DB
+	NotNullQuery string = "id = ? AND deleted_by is null"
 )

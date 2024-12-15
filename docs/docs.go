@@ -15,6 +15,308 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/cities/": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Create a City",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Create a City",
+                "parameters": [
+                    {
+                        "description": "Create a City",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreateCityRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CityResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/cities/get-by-filter": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "GetByFilter a City",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "GetByFilter a City",
+                "parameters": [
+                    {
+                        "description": "GetByFilter a City",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CityResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/cities/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "GetById a City",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "GetById a City",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "GetById a City",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CityResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Update a City",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Update a City",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Update a City",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update a City",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdateCityRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CityResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Delete a City",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Delete a City",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Delete a City",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/countries/": {
             "post": {
                 "security": [
@@ -534,6 +836,22 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_sahandPgr_car-selling-service_api_dto.CreateCityRequest": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "countryId": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 2
+                }
+            }
+        },
         "github_com_sahandPgr_car-selling-service_api_dto.CreateUpdateCountryRequest": {
             "type": "object",
             "required": [
@@ -595,6 +913,38 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "minLength": 5
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CityResponse": {
+            "type": "object",
+            "properties": {
+                "hasNextPage": {
+                    "description": "HasNextPage indicates whether there is a next page.",
+                    "type": "boolean"
+                },
+                "hasPerviousPage": {
+                    "description": "HasPerviousPage indicates whether there is a previous page.",
+                    "type": "boolean"
+                },
+                "items": {
+                    "description": "Items contains the list of items for the current page.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CityResponse"
+                    }
+                },
+                "pageNumber": {
+                    "description": "PageNumber is the current page number.",
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "description": "TotalPages is the total number of pages available.",
+                    "type": "integer"
+                },
+                "totalRows": {
+                    "description": "TotalRows is the total number of rows available.",
+                    "type": "integer"
                 }
             }
         },
@@ -717,6 +1067,19 @@ const docTemplate = `{
                 "sort": {
                     "description": "Sort specifies the sorting direction (e.g., \"asc\" or \"desc\").",
                     "type": "string"
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.UpdateCityRequest": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 2
                 }
             }
         },
