@@ -34,7 +34,11 @@ func addToTables(database *gorm.DB, models ...interface{}) []interface{} {
 
 func createTables(database *gorm.DB, log logger.Logger) {
 	tables := addToTables(database, models.Country{}, models.City{}, models.User{},
-		models.Role{}, models.UserRole{})
+		models.Role{}, models.UserRole{}, models.File{}, models.PersianYear{}, models.PropertyCategory{},
+		models.Property{}, models.Company{}, models.Gearbox{}, models.Color{}, models.CarType{},
+		models.CarModel{}, models.CarModelColor{}, models.CarModelYear{}, models.CarModelImage{},
+		models.CarModelComment{}, models.CarModelPriceHistory{}, models.CarModelProperty{},
+	)
 	if err := database.Migrator().CreateTable(tables...); err != nil {
 		log.Fatal(logger.Potgres, logger.Migration, nil, err.Error())
 	}
