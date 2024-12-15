@@ -5,8 +5,8 @@ import "time"
 type CarModel struct {
 	BaseModel
 	Name                 string  `gorm:"size:15;type:string;not null; unique"`
-	Company              Company `gorm:"foreignKey:CompantId;constraint:OnDelete:No Action;OnUpdate:No Action"`
-	CompantId            int
+	Company              Company `gorm:"foreignKey:CompanyId;constraint:OnDelete:No Action;OnUpdate:No Action"`
+	CompanyId            int
 	CarType              CarType `gorm:"foreignKey:CarTypeId;constraint:OnDelete:No Action;OnUpdate:No Action"`
 	CarTypeId            int
 	Gearbox              Gearbox `gorm:"foreignKey:GearboxId;constraint:OnDelete:No Action;OnUpdate:No Action"`
@@ -20,19 +20,19 @@ type CarModel struct {
 
 type CarModelColor struct {
 	BaseModel
-	CarModel               CarModel `gorm:"foreignKey:CarModelId;constraint:OnDelete:No Action;OnUpdate:No Action"`
-	CarModelId             int
-	Color                  Color `gorm:"foreignKey:ColorId;constraint:OnDelete:No Action;OnUpdate:No Action"`
-	ColorId                int
-	CarModelPriceHistories []CarModelPriceHistory
+	CarModel   CarModel `gorm:"foreignKey:CarModelId;constraint:OnDelete:No Action;OnUpdate:No Action"`
+	CarModelId int
+	Color      Color `gorm:"foreignKey:ColorId;constraint:OnDelete:No Action;OnUpdate:No Action"`
+	ColorId    int
 }
 
 type CarModelYear struct {
 	BaseModel
-	CarModel   CarModel `gorm:"foreignKey:CarModelId;constraint:OnDelete:No Action;OnUpdate:No Action"`
-	CarModelId int
-	Year       PersianYear `gorm:"foreignKey:YearId;constraint:OnDelete:No Action;OnUpdate:No Action"`
-	YearId     int
+	CarModel               CarModel `gorm:"foreignKey:CarModelId;constraint:OnDelete:No Action;OnUpdate:No Action"`
+	CarModelId             int
+	Year                   PersianYear `gorm:"foreignKey:YearId;constraint:OnDelete:No Action;OnUpdate:No Action"`
+	YearId                 int
+	CarModelPriceHistories []CarModelPriceHistory
 }
 
 type CarModelImage struct {
