@@ -5,9 +5,7 @@ import (
 
 	"github.com/sahandPgr/car-selling-service/api/dto"
 	"github.com/sahandPgr/car-selling-service/config"
-	"github.com/sahandPgr/car-selling-service/internal/db"
 	"github.com/sahandPgr/car-selling-service/internal/models"
-	"github.com/sahandPgr/car-selling-service/pkg/logger"
 )
 
 type CountryService struct {
@@ -16,11 +14,8 @@ type CountryService struct {
 
 func NewCountryService(cfg *config.Config) *CountryService {
 	return &CountryService{
-		base: &BaseService[models.Country, dto.CreateUpdateCountryRequest, dto.CreateUpdateCountryRequest, dto.CountryResponse]{
-			Database: db.GetDB(),
-			Log:      logger.NewLogger(cfg),
-			Preloads: []Preload{{string: "Cities"}},
-		},
+		base: NewBaseService[models.Country, dto.CreateUpdateCountryRequest, dto.CreateUpdateCountryRequest, dto.CountryResponse](cfg,
+			[]Preload{{string: "Cities"}}),
 	}
 }
 
