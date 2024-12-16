@@ -39,6 +39,19 @@ definitions:
     required:
     - name
     type: object
+  github_com_sahandPgr_car-selling-service_api_dto.FileResponse:
+    properties:
+      description:
+        type: string
+      directory:
+        type: string
+      id:
+        type: integer
+      mediaType:
+        type: string
+      name:
+        type: string
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.Filter:
     properties:
       filterType:
@@ -110,6 +123,29 @@ definitions:
         description: Items contains the list of items for the current page.
         items:
           $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CountryResponse'
+        type: array
+      pageNumber:
+        description: PageNumber is the current page number.
+        type: integer
+      totalPages:
+        description: TotalPages is the total number of pages available.
+        type: integer
+      totalRows:
+        description: TotalRows is the total number of rows available.
+        type: integer
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_FileResponse:
+    properties:
+      hasNextPage:
+        description: HasNextPage indicates whether there is a next page.
+        type: boolean
+      hasPerviousPage:
+        description: HasPerviousPage indicates whether there is a previous page.
+        type: boolean
+      items:
+        description: Items contains the list of items for the current page.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.FileResponse'
         type: array
       pageNumber:
         description: PageNumber is the current page number.
@@ -194,6 +230,11 @@ definitions:
         type: string
     required:
     - name
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.UpdateFileRequest:
+    properties:
+      description:
+        type: string
     type: object
   github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse:
     properties:
@@ -586,6 +627,190 @@ paths:
       summary: Get countries
       tags:
       - Countries
+  /v1/files/:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: Create a File
+      parameters:
+      - in: formData
+        name: desciption
+        required: true
+        type: string
+      - description: Create a files
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.FileResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create a File
+      tags:
+      - Files
+  /v1/files/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a File
+      parameters:
+      - description: Delete a files
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Delete a File
+      tags:
+      - Files
+    get:
+      consumes:
+      - application/json
+      description: GetById a File
+      parameters:
+      - description: GetById a files
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.FileResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: GetById a File
+      tags:
+      - Files
+    put:
+      consumes:
+      - application/json
+      description: Update a File
+      parameters:
+      - description: Update a files
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a files
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdateFileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.FileResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Update a File
+      tags:
+      - Files
+  /v1/files/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: Get Files
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_FileResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get Files
+      tags:
+      - Files
   /v1/user/login-by-username:
     post:
       consumes:
