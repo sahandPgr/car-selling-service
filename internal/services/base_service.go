@@ -101,7 +101,8 @@ func (s *BaseService[T, Tc, Tu, Tr]) Delete(ctx context.Context, id int) error {
 
 // GetById retrieves a record by its ID if not deleted.
 func (s *BaseService[T, Tc, Tu, Tr]) GetById(ctx context.Context, id int) (*Tr, error) {
-	tx := s.Database.WithContext(ctx).Begin() // Begin transaction.
+	db := preload(s.Database, s.Preloads)
+	tx := db.WithContext(ctx).Begin() // Begin transaction.
 	model := new(T)
 
 	if err := tx.Model(model).
