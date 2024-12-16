@@ -20,4 +20,6 @@ const (
 	ExpireTimeKey string = "Exp"
 	//DB
 	NotNullQuery string = "id = ? AND deleted_by is null"
+	//Dir
+	UploadDirName string = "uploads"
 )

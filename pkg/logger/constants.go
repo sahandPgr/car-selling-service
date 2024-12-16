@@ -8,6 +8,7 @@ type ExtraKey string
 const (
 	Potgres         Category = "Postgres"
 	Redis           Category = "Redis"
+	Io              Category = "Io"
 	Validation      Category = "Validation"
 	RequestResponse Category = "RequestResponse"
 	Internal        Category = "Internal"
@@ -35,6 +36,9 @@ const (
 	// General
 	Startup         SubCategory = "Startup"
 	ExternalService SubCategory = "ExternalService"
+	//Io
+	UploadFile SubCategory = "UploadFile"
+	RmoveFile  SubCategory = "removeFile"
 )
 
 // ExtraKey constants
