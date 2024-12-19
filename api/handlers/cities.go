@@ -1,11 +1,9 @@
 package handlers
 
 import (
-	"strconv"
-
 	"github.com/gin-gonic/gin"
-	"github.com/sahandPgr/car-selling-service/api/dto"
-	"github.com/sahandPgr/car-selling-service/api/helper"
+	_ "github.com/sahandPgr/car-selling-service/api/dto"
+	_ "github.com/sahandPgr/car-selling-service/api/helper"
 	"github.com/sahandPgr/car-selling-service/config"
 	"github.com/sahandPgr/car-selling-service/internal/services"
 )
@@ -33,21 +31,7 @@ func NewCityHandler(cfg *config.Config) *CityHandler {
 // @Router /v1/cities/ [post]
 // @Security AuthBearer
 func (h *CityHandler) Create(ctx *gin.Context) {
-	dto := new(dto.CreateCityRequest)
-	err := ctx.ShouldBindJSON(dto)
-	if err != nil {
-		statusCode := helper.ConvertServiceErrorToStatusCode(err)
-		ctx.AbortWithStatusJSON(statusCode, helper.GetBaseHttpResponseWithError(nil, false, statusCode, err))
-		return
-	}
-	res, err := h.service.Create(ctx, dto)
-	if err != nil {
-		statusCode := helper.ConvertServiceErrorToStatusCode(err)
-		ctx.AbortWithStatusJSON(statusCode, helper.GetBaseHttpResponseWithError(nil, false, statusCode, err))
-		return
-	}
-
-	ctx.JSON(helper.Created, helper.GetBaseHttpResponse(res, true, helper.Created))
+	Create(ctx, h.service.Create)
 }
 
 // UpdateCity godoc
@@ -64,22 +48,7 @@ func (h *CityHandler) Create(ctx *gin.Context) {
 // @Router /v1/cities/{id} [put]
 // @Security AuthBearer
 func (h *CityHandler) Update(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Param("id"))
-	dto := new(dto.UpdateCityRequest)
-	err := ctx.ShouldBindJSON(dto)
-	if err != nil {
-		statusCode := helper.ConvertServiceErrorToStatusCode(err)
-		ctx.AbortWithStatusJSON(statusCode, helper.GetBaseHttpResponseWithError(nil, false, statusCode, err))
-		return
-	}
-	res, err := h.service.Update(ctx, id, dto)
-	if err != nil {
-		statusCode := helper.ConvertServiceErrorToStatusCode(err)
-		ctx.AbortWithStatusJSON(statusCode, helper.GetBaseHttpResponseWithError(nil, false, statusCode, err))
-		return
-	}
-
-	ctx.JSON(helper.Success, helper.GetBaseHttpResponse(res, true, helper.Success))
+	Update(ctx, h.service.Update)
 }
 
 // DeleteCity godoc
@@ -95,19 +64,7 @@ func (h *CityHandler) Update(ctx *gin.Context) {
 // @Router /v1/cities/{id} [delete]
 // @Security AuthBearer
 func (h *CityHandler) Delete(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Param("id"))
-	if id == 0 {
-		ctx.AbortWithStatusJSON(helper.NotFound, helper.GetBaseHttpResponse(nil, false, helper.NotFound))
-		return
-	}
-	err := h.service.Delete(ctx, id)
-	if err != nil {
-		statusCode := helper.ConvertServiceErrorToStatusCode(err)
-		ctx.AbortWithStatusJSON(statusCode, helper.GetBaseHttpResponseWithError(nil, false, statusCode, err))
-		return
-	}
-
-	ctx.JSON(helper.Success, helper.GetBaseHttpResponse(nil, true, helper.Success))
+	Delete(ctx, h.service.Delete)
 }
 
 // GetByIdCity godoc
@@ -123,19 +80,7 @@ func (h *CityHandler) Delete(ctx *gin.Context) {
 // @Router /v1/cities/{id} [get]
 // @Security AuthBearer
 func (h *CityHandler) GetById(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Param("id"))
-	if id == 0 {
-		ctx.AbortWithStatusJSON(helper.NotFound, helper.GetBaseHttpResponse(nil, false, helper.NotFound))
-		return
-	}
-	res, err := h.service.GetById(ctx, id)
-	if err != nil {
-		statusCode := helper.ConvertServiceErrorToStatusCode(err)
-		ctx.AbortWithStatusJSON(statusCode, helper.GetBaseHttpResponseWithError(nil, false, statusCode, err))
-		return
-	}
-
-	ctx.JSON(helper.Success, helper.GetBaseHttpResponse(res, true, helper.Success))
+	GetById(ctx, h.service.GetById)
 }
 
 // GetByFilterCity godoc
@@ -151,18 +96,5 @@ func (h *CityHandler) GetById(ctx *gin.Context) {
 // @Router /v1/cities/get-by-filter [post]
 // @Security AuthBearer
 func (h *CityHandler) GetByFilter(ctx *gin.Context) {
-	var dto = new(dto.PaginationInputWithFilter)
-	err := ctx.ShouldBindJSON(dto)
-	if err != nil {
-		ctx.AbortWithStatusJSON(helper.BadRequest, helper.GetBaseHttpResponseWithValidation(nil, false, helper.BadRequest, err))
-		return
-	}
-	res, err := h.service.GetByFilter(ctx, dto)
-	if err != nil {
-		statusCode := helper.ConvertServiceErrorToStatusCode(err)
-		ctx.AbortWithStatusJSON(statusCode, helper.GetBaseHttpResponseWithError(nil, false, statusCode, err))
-		return
-	}
-
-	ctx.JSON(helper.Success, helper.GetBaseHttpResponse(res, true, helper.Success))
+	GetByFilter(ctx, h.service.GetByFilter)
 }
