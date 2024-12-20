@@ -19,7 +19,8 @@ const (
 	Roles         string = "Roles"
 	ExpireTimeKey string = "Exp"
 	//DB
-	NotNullQuery string = "id = ? AND deleted_by is null"
+	GetRecordNotNullQuery string = "id = ? AND deleted_by is null"
+	NotNullQuery          string = "deleted_by is null"
 	//Dir
 	UploadDirName string = "uploads"
 )

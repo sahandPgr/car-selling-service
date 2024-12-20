@@ -66,7 +66,7 @@ func (s *BaseService[T, Tc, Tu, Tr]) Update(ctx context.Context, id int, req *Tu
 	model := new(T)
 	tx := s.Database.WithContext(ctx).Begin() // Begin transaction.
 	if err := tx.Model(model).
-		Where(constatns.NotNullQuery, id).
+		Where(constatns.GetRecordNotNullQuery, id).
 		Updates(snakeMap).Error; err != nil {
 		tx.Rollback()
 		s.Log.Error(logger.Potgres, logger.Update, nil, err.Error())
@@ -89,7 +89,7 @@ func (s *BaseService[T, Tc, Tu, Tr]) Delete(ctx context.Context, id int) error {
 		"deleted_at": &sql.NullTime{Valid: true, Time: time.Now().UTC()},
 	}
 	if count := tx.Model(model).
-		Where(constatns.NotNullQuery, id).
+		Where(constatns.GetRecordNotNullQuery, id).
 		Updates(deleteMap).RowsAffected; count == 0 {
 		s.Log.Error(logger.Potgres, logger.Update, nil, serviceerrors.RecordNotFound)
 		tx.Rollback()
@@ -106,7 +106,7 @@ func (s *BaseService[T, Tc, Tu, Tr]) GetById(ctx context.Context, id int) (*Tr, 
 	model := new(T)
 
 	if err := tx.Model(model).
-		Where(constatns.NotNullQuery, id).
+		Where(constatns.GetRecordNotNullQuery, id).Preload("Cities.").
 		First(model).Error; err != nil {
 		s.Log.Error(logger.Potgres, logger.Select, nil, err.Error())
 		tx.Rollback()
