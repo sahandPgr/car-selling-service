@@ -914,6 +914,610 @@
                 }
             }
         },
+        "/v1/properties/": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Create a Property",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Properties"
+                ],
+                "summary": "Create a Property",
+                "parameters": [
+                    {
+                        "description": "Create a Property",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreatePropertyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/properties/get-by-filter": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get Property",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Properties"
+                ],
+                "summary": "Get Property",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PropertyResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/properties/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get a Property",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Properties"
+                ],
+                "summary": "Get a Property",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Get a Property",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Update a Property",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Properties"
+                ],
+                "summary": "Update a Property",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Update a Property",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update a Property",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdatePropertyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Delete a Property",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Properties"
+                ],
+                "summary": "Delete a Property",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Delete a Property",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/property-category/": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Create a property-category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PropertiesCategory"
+                ],
+                "summary": "Create a property-category",
+                "parameters": [
+                    {
+                        "description": "Create a property-category",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreatePropertyCategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/property-category/get-by-filter": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get property-category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PropertiesCategory"
+                ],
+                "summary": "Get property-category",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PropertyCategoryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/property-category/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get a property-category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PropertiesCategory"
+                ],
+                "summary": "Get a property-category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Get a property-category",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Update a property-category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PropertiesCategory"
+                ],
+                "summary": "Update a property-category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Update a property-category",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update a property-category",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdatePropertyCategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Delete a property-category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PropertiesCategory"
+                ],
+                "summary": "Delete a property-category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Delete a property-category",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/user/login-by-username": {
             "post": {
                 "description": "LoginByUsername",
@@ -1147,6 +1751,64 @@
                 }
             }
         },
+        "github_com_sahandPgr_car-selling-service_api_dto.CreatePropertyCategoryRequest": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "icon": {
+                    "description": "Category icon.",
+                    "type": "string",
+                    "maxLength": 1000
+                },
+                "name": {
+                    "description": "Category name.",
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 3
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.CreatePropertyRequest": {
+            "type": "object",
+            "required": [
+                "categoryId",
+                "name"
+            ],
+            "properties": {
+                "categoryId": {
+                    "description": "Associated category ID.",
+                    "type": "integer"
+                },
+                "dataType": {
+                    "description": "Data type.",
+                    "type": "string",
+                    "maxLength": 15
+                },
+                "description": {
+                    "description": "Property description.",
+                    "type": "string",
+                    "maxLength": 1000
+                },
+                "icon": {
+                    "description": "Property icon.",
+                    "type": "string",
+                    "maxLength": 1000
+                },
+                "name": {
+                    "description": "Property name.",
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 3
+                },
+                "unit": {
+                    "description": "Unit.",
+                    "type": "string",
+                    "maxLength": 15
+                }
+            }
+        },
         "github_com_sahandPgr_car-selling-service_api_dto.CreateUpdateCountryRequest": {
             "type": "object",
             "required": [
@@ -1327,6 +1989,70 @@
                 }
             }
         },
+        "github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PropertyCategoryResponse": {
+            "type": "object",
+            "properties": {
+                "hasNextPage": {
+                    "description": "HasNextPage indicates whether there is a next page.",
+                    "type": "boolean"
+                },
+                "hasPerviousPage": {
+                    "description": "HasPerviousPage indicates whether there is a previous page.",
+                    "type": "boolean"
+                },
+                "items": {
+                    "description": "Items contains the list of items for the current page.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse"
+                    }
+                },
+                "pageNumber": {
+                    "description": "PageNumber is the current page number.",
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "description": "TotalPages is the total number of pages available.",
+                    "type": "integer"
+                },
+                "totalRows": {
+                    "description": "TotalRows is the total number of rows available.",
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PropertyResponse": {
+            "type": "object",
+            "properties": {
+                "hasNextPage": {
+                    "description": "HasNextPage indicates whether there is a next page.",
+                    "type": "boolean"
+                },
+                "hasPerviousPage": {
+                    "description": "HasPerviousPage indicates whether there is a previous page.",
+                    "type": "boolean"
+                },
+                "items": {
+                    "description": "Items contains the list of items for the current page.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyResponse"
+                    }
+                },
+                "pageNumber": {
+                    "description": "PageNumber is the current page number.",
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "description": "TotalPages is the total number of pages available.",
+                    "type": "integer"
+                },
+                "totalRows": {
+                    "description": "TotalRows is the total number of rows available.",
+                    "type": "integer"
+                }
+            }
+        },
         "github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter": {
             "type": "object",
             "properties": {
@@ -1351,6 +2077,67 @@
                     "items": {
                         "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.Sort"
                     }
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse": {
+            "type": "object",
+            "properties": {
+                "icon": {
+                    "description": "Category icon.",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "Category ID.",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Category name.",
+                    "type": "string"
+                },
+                "properties": {
+                    "description": "List of properties.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyResponse"
+                    }
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.PropertyResponse": {
+            "type": "object",
+            "properties": {
+                "DataType": {
+                    "description": "Data type.",
+                    "type": "string"
+                },
+                "category": {
+                    "description": "Associated category.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse"
+                        }
+                    ]
+                },
+                "description": {
+                    "description": "Property description.",
+                    "type": "string"
+                },
+                "icon": {
+                    "description": "Property icon.",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "Property ID.",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Property name.",
+                    "type": "string"
+                },
+                "unit": {
+                    "description": "Unit.",
+                    "type": "string"
                 }
             }
         },
@@ -1435,6 +2222,57 @@
             "properties": {
                 "description": {
                     "type": "string"
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.UpdatePropertyCategoryRequest": {
+            "type": "object",
+            "properties": {
+                "icon": {
+                    "description": "Updated icon.",
+                    "type": "string",
+                    "maxLength": 1000
+                },
+                "name": {
+                    "description": "Updated name.",
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 3
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.UpdatePropertyRequest": {
+            "type": "object",
+            "properties": {
+                "categoryId": {
+                    "description": "Updated category ID.",
+                    "type": "integer"
+                },
+                "dataType": {
+                    "description": "Updated data type.",
+                    "type": "string",
+                    "maxLength": 15
+                },
+                "description": {
+                    "description": "Updated description.",
+                    "type": "string",
+                    "maxLength": 1000
+                },
+                "icon": {
+                    "description": "Updated icon.",
+                    "type": "string",
+                    "maxLength": 1000
+                },
+                "name": {
+                    "description": "Updated name.",
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 3
+                },
+                "unit": {
+                    "description": "Updated unit.",
+                    "type": "string",
+                    "maxLength": 15
                 }
             }
         },

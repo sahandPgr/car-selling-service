@@ -30,6 +30,50 @@ definitions:
     required:
     - name
     type: object
+  github_com_sahandPgr_car-selling-service_api_dto.CreatePropertyCategoryRequest:
+    properties:
+      icon:
+        description: Category icon.
+        maxLength: 1000
+        type: string
+      name:
+        description: Category name.
+        maxLength: 15
+        minLength: 3
+        type: string
+    required:
+    - name
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.CreatePropertyRequest:
+    properties:
+      categoryId:
+        description: Associated category ID.
+        type: integer
+      dataType:
+        description: Data type.
+        maxLength: 15
+        type: string
+      description:
+        description: Property description.
+        maxLength: 1000
+        type: string
+      icon:
+        description: Property icon.
+        maxLength: 1000
+        type: string
+      name:
+        description: Property name.
+        maxLength: 15
+        minLength: 3
+        type: string
+      unit:
+        description: Unit.
+        maxLength: 15
+        type: string
+    required:
+    - categoryId
+    - name
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.CreateUpdateCountryRequest:
     properties:
       name:
@@ -157,6 +201,52 @@ definitions:
         description: TotalRows is the total number of rows available.
         type: integer
     type: object
+  ? github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PropertyCategoryResponse
+  : properties:
+      hasNextPage:
+        description: HasNextPage indicates whether there is a next page.
+        type: boolean
+      hasPerviousPage:
+        description: HasPerviousPage indicates whether there is a previous page.
+        type: boolean
+      items:
+        description: Items contains the list of items for the current page.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse'
+        type: array
+      pageNumber:
+        description: PageNumber is the current page number.
+        type: integer
+      totalPages:
+        description: TotalPages is the total number of pages available.
+        type: integer
+      totalRows:
+        description: TotalRows is the total number of rows available.
+        type: integer
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PropertyResponse:
+    properties:
+      hasNextPage:
+        description: HasNextPage indicates whether there is a next page.
+        type: boolean
+      hasPerviousPage:
+        description: HasPerviousPage indicates whether there is a previous page.
+        type: boolean
+      items:
+        description: Items contains the list of items for the current page.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyResponse'
+        type: array
+      pageNumber:
+        description: PageNumber is the current page number.
+        type: integer
+      totalPages:
+        description: TotalPages is the total number of pages available.
+        type: integer
+      totalRows:
+        description: TotalRows is the total number of rows available.
+        type: integer
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter:
     properties:
       filter:
@@ -175,6 +265,48 @@ definitions:
         items:
           $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.Sort'
         type: array
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse:
+    properties:
+      icon:
+        description: Category icon.
+        type: string
+      id:
+        description: Category ID.
+        type: integer
+      name:
+        description: Category name.
+        type: string
+      properties:
+        description: List of properties.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyResponse'
+        type: array
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PropertyResponse:
+    properties:
+      DataType:
+        description: Data type.
+        type: string
+      category:
+        allOf:
+        - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse'
+        description: Associated category.
+      description:
+        description: Property description.
+        type: string
+      icon:
+        description: Property icon.
+        type: string
+      id:
+        description: Property ID.
+        type: integer
+      name:
+        description: Property name.
+        type: string
+      unit:
+        description: Unit.
+        type: string
     type: object
   github_com_sahandPgr_car-selling-service_api_dto.RegisterLoginByMobileRequest:
     properties:
@@ -234,6 +366,45 @@ definitions:
   github_com_sahandPgr_car-selling-service_api_dto.UpdateFileRequest:
     properties:
       description:
+        type: string
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.UpdatePropertyCategoryRequest:
+    properties:
+      icon:
+        description: Updated icon.
+        maxLength: 1000
+        type: string
+      name:
+        description: Updated name.
+        maxLength: 15
+        minLength: 3
+        type: string
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.UpdatePropertyRequest:
+    properties:
+      categoryId:
+        description: Updated category ID.
+        type: integer
+      dataType:
+        description: Updated data type.
+        maxLength: 15
+        type: string
+      description:
+        description: Updated description.
+        maxLength: 1000
+        type: string
+      icon:
+        description: Updated icon.
+        maxLength: 1000
+        type: string
+      name:
+        description: Updated name.
+        maxLength: 15
+        minLength: 3
+        type: string
+      unit:
+        description: Updated unit.
+        maxLength: 15
         type: string
     type: object
   github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse:
@@ -811,6 +982,368 @@ paths:
       summary: Get Files
       tags:
       - Files
+  /v1/properties/:
+    post:
+      consumes:
+      - application/json
+      description: Create a Property
+      parameters:
+      - description: Create a Property
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreatePropertyRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create a Property
+      tags:
+      - Properties
+  /v1/properties/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a Property
+      parameters:
+      - description: Delete a Property
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Delete a Property
+      tags:
+      - Properties
+    get:
+      consumes:
+      - application/json
+      description: Get a Property
+      parameters:
+      - description: Get a Property
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get a Property
+      tags:
+      - Properties
+    put:
+      consumes:
+      - application/json
+      description: Update a Property
+      parameters:
+      - description: Update a Property
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a Property
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdatePropertyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Update a Property
+      tags:
+      - Properties
+  /v1/properties/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: Get Property
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PropertyResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get Property
+      tags:
+      - Properties
+  /v1/property-category/:
+    post:
+      consumes:
+      - application/json
+      description: Create a property-category
+      parameters:
+      - description: Create a property-category
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreatePropertyCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create a property-category
+      tags:
+      - PropertiesCategory
+  /v1/property-category/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a property-category
+      parameters:
+      - description: Delete a property-category
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Delete a property-category
+      tags:
+      - PropertiesCategory
+    get:
+      consumes:
+      - application/json
+      description: Get a property-category
+      parameters:
+      - description: Get a property-category
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get a property-category
+      tags:
+      - PropertiesCategory
+    put:
+      consumes:
+      - application/json
+      description: Update a property-category
+      parameters:
+      - description: Update a property-category
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a property-category
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdatePropertyCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Update a property-category
+      tags:
+      - PropertiesCategory
+  /v1/property-category/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: Get property-category
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PropertyCategoryResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get property-category
+      tags:
+      - PropertiesCategory
   /v1/user/login-by-username:
     post:
       consumes:
