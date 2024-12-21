@@ -44,7 +44,7 @@ type PaginationInputWithFilter struct {
 
 // GetOffset calculates the starting index for database queries based on the current page and page size.
 func (p *PaginationInputWithFilter) GetOffset() int {
-	return (p.PageNumber - 1) * p.PageSize
+	return (p.GetPageNumber() - 1) * p.GetPageSize()
 }
 
 // GetPageNumber ensures the page number is valid and returns it.
