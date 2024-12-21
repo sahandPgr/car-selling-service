@@ -50,6 +50,14 @@ func registerRoutes(r *gin.Engine, config *config.Config) {
 		//File
 		file := v1.Group("/files", middlewares.Authentication(config), middlewares.Authorization([]string{constatns.AdminRole}))
 		routes.Files(file, config)
+
+		//Property Category
+		propertyCategory := v1.Group("/property-category", middlewares.Authentication(config), middlewares.Authorization([]string{constatns.AdminRole}))
+		routes.PropertyCategory(propertyCategory, config)
+
+		//Property
+		property := v1.Group("/properties", middlewares.Authentication(config), middlewares.Authorization([]string{constatns.AdminRole}))
+		routes.Property(property, config)
 	}
 }
 
