@@ -106,7 +106,7 @@ func (s *BaseService[T, Tc, Tu, Tr]) GetById(ctx context.Context, id int) (*Tr, 
 	model := new(T)
 
 	if err := tx.Model(model).
-		Where(constatns.GetRecordNotNullQuery, id).Preload("Cities.").
+		Where(constatns.GetRecordNotNullQuery, id).
 		First(model).Error; err != nil {
 		s.Log.Error(logger.Potgres, logger.Select, nil, err.Error())
 		tx.Rollback()
