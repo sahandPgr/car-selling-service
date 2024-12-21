@@ -18,6 +18,7 @@ func Up_1(log logger.Logger) {
 	createTables(database, log)
 	createDefault(database)
 	createCountry(database)
+	createPropertyCategory(database)
 
 }
 
@@ -127,6 +128,87 @@ func createCountry(database *gorm.DB) {
 			{Name: "Seoul"},
 			{Name: "Ulsan"},
 		}})
+	}
+
+}
+
+func createPropertyCategory(database *gorm.DB) {
+	count := 0
+	database.Model(&models.PropertyCategory{}).
+		Select(countStartExp).
+		Find(&count)
+	if count == 0 {
+		database.Create(&models.PropertyCategory{Name: "Body"})
+		database.Create(&models.PropertyCategory{Name: "Engine"})
+		database.Create(&models.PropertyCategory{Name: "Drivetrain"})
+		database.Create(&models.PropertyCategory{Name: "Suspension"})
+		database.Create(&models.PropertyCategory{Name: "Equipment"})
+		database.Create(&models.PropertyCategory{Name: "Driver support systems"})
+		database.Create(&models.PropertyCategory{Name: "Lights"})
+		database.Create(&models.PropertyCategory{Name: "Multimedia"})
+		database.Create(&models.PropertyCategory{Name: "Safety equipment"})
+		database.Create(&models.PropertyCategory{Name: "Seats and steering wheel"})
+		database.Create(&models.PropertyCategory{Name: "Windows and mirrors"})
+	}
+
+	var categories []string
+	database.Model(&models.PropertyCategory{}).
+		Select("name").
+		Find(&categories)
+	for _, cat := range categories {
+		createProperty(database, cat)
+	}
+}
+
+func createProperty(database *gorm.DB, cat string) {
+	count := 0
+	catModel := new(models.PropertyCategory)
+
+	database.Model(models.PropertyCategory{}).
+		Where("name = ?", cat).
+		Find(catModel)
+
+	database.Model(&models.Property{}).
+		Select(countStartExp).
+		Where("category_id = ?", catModel.ID).
+		Find(&count)
+	if count > 0 || catModel.ID == 0 {
+		return
+	}
+	var properties *[]models.Property
+	switch cat {
+	case "Body":
+		properties = getBodyProperties(catModel.ID)
+	case "Engine":
+		properties = getEngineProperties(catModel.ID)
+	case "Drivetrain":
+		properties = getDrivetrainProperties(catModel.ID)
+	case "Suspension":
+		properties = getSuspensionProperties(catModel.ID)
+	case "Comfort":
+		properties = getComfortProperties(catModel.ID)
+	case "Driver support systems":
+		properties = getDriverSupportSystemProperties(catModel.ID)
+	case "Lights":
+		properties = getLightsProperties(catModel.ID)
+	case "Multimedia":
+		properties = getMultimediaProperties(catModel.ID)
+
+	case "Safety equipment":
+		properties = getSafetyEquipmentProperties(catModel.ID)
+
+	case "Seats and steering wheel":
+		properties = getSeatsProperties(catModel.ID)
+
+	case "Windows and mirrors":
+		properties = getWindowsProperties(catModel.ID)
+
+	default:
+		properties = &([]models.Property{})
+	}
+
+	for _, prop := range *properties {
+		database.Create(&prop)
 	}
 
 }
