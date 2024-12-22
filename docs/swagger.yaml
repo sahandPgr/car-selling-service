@@ -1,5 +1,21 @@
 definitions:
+  github_com_sahandPgr_car-selling-service_api_dto.CarTypeResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.CityResponse:
+    properties:
+      country:
+        $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CountryResponse'
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.CompanyResponse:
     properties:
       country:
         $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CountryResponse'
@@ -14,10 +30,23 @@ definitions:
         items:
           $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CityResponse'
         type: array
+      companies:
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CompanyResponse'
+        type: array
       id:
         type: integer
       name:
         type: string
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.CreateCarTypeRequest:
+    properties:
+      name:
+        maxLength: 15
+        minLength: 3
+        type: string
+    required:
+    - name
     type: object
   github_com_sahandPgr_car-selling-service_api_dto.CreateCityRequest:
     properties:
@@ -26,6 +55,26 @@ definitions:
       name:
         maxLength: 20
         minLength: 2
+        type: string
+    required:
+    - name
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.CreateCompanyRequest:
+    properties:
+      company:
+        maxLength: 15
+        type: string
+      countryId:
+        type: integer
+    required:
+    - company
+    - countryId
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.CreateGearboxRequest:
+    properties:
+      name:
+        maxLength: 15
+        minLength: 3
         type: string
     required:
     - name
@@ -111,6 +160,13 @@ definitions:
         description: Type specifies the type of filter (e.g., "range").
         type: string
     type: object
+  github_com_sahandPgr_car-selling-service_api_dto.GearboxResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.GetOtpRequest:
     properties:
       mobileNumber:
@@ -132,6 +188,29 @@ definitions:
     - password
     - username
     type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CarTypeResponse:
+    properties:
+      hasNextPage:
+        description: HasNextPage indicates whether there is a next page.
+        type: boolean
+      hasPerviousPage:
+        description: HasPerviousPage indicates whether there is a previous page.
+        type: boolean
+      items:
+        description: Items contains the list of items for the current page.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarTypeResponse'
+        type: array
+      pageNumber:
+        description: PageNumber is the current page number.
+        type: integer
+      totalPages:
+        description: TotalPages is the total number of pages available.
+        type: integer
+      totalRows:
+        description: TotalRows is the total number of rows available.
+        type: integer
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CityResponse:
     properties:
       hasNextPage:
@@ -144,6 +223,29 @@ definitions:
         description: Items contains the list of items for the current page.
         items:
           $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CityResponse'
+        type: array
+      pageNumber:
+        description: PageNumber is the current page number.
+        type: integer
+      totalPages:
+        description: TotalPages is the total number of pages available.
+        type: integer
+      totalRows:
+        description: TotalRows is the total number of rows available.
+        type: integer
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CompanyResponse:
+    properties:
+      hasNextPage:
+        description: HasNextPage indicates whether there is a next page.
+        type: boolean
+      hasPerviousPage:
+        description: HasPerviousPage indicates whether there is a previous page.
+        type: boolean
+      items:
+        description: Items contains the list of items for the current page.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CompanyResponse'
         type: array
       pageNumber:
         description: PageNumber is the current page number.
@@ -190,6 +292,29 @@ definitions:
         description: Items contains the list of items for the current page.
         items:
           $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.FileResponse'
+        type: array
+      pageNumber:
+        description: PageNumber is the current page number.
+        type: integer
+      totalPages:
+        description: TotalPages is the total number of pages available.
+        type: integer
+      totalRows:
+        description: TotalRows is the total number of rows available.
+        type: integer
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_GearboxResponse:
+    properties:
+      hasNextPage:
+        description: HasNextPage indicates whether there is a next page.
+        type: boolean
+      hasPerviousPage:
+        description: HasPerviousPage indicates whether there is a previous page.
+        type: boolean
+      items:
+        description: Items contains the list of items for the current page.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.GearboxResponse'
         type: array
       pageNumber:
         description: PageNumber is the current page number.
@@ -354,6 +479,13 @@ definitions:
         description: Sort specifies the sorting direction (e.g., "asc" or "desc").
         type: string
     type: object
+  github_com_sahandPgr_car-selling-service_api_dto.UpdateCarTypeRequest:
+    properties:
+      name:
+        maxLength: 15
+        minLength: 3
+        type: string
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.UpdateCityRequest:
     properties:
       name:
@@ -363,9 +495,27 @@ definitions:
     required:
     - name
     type: object
+  github_com_sahandPgr_car-selling-service_api_dto.UpdateCompanyRequest:
+    properties:
+      company:
+        maxLength: 15
+        type: string
+      countryId:
+        type: integer
+    required:
+    - company
+    - countryId
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.UpdateFileRequest:
     properties:
       description:
+        type: string
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.UpdateGearboxRequest:
+    properties:
+      name:
+        maxLength: 15
+        minLength: 3
         type: string
     type: object
   github_com_sahandPgr_car-selling-service_api_dto.UpdatePropertyCategoryRequest:
@@ -436,6 +586,187 @@ definitions:
 info:
   contact: {}
 paths:
+  /v1/car-types/:
+    post:
+      consumes:
+      - application/json
+      description: Create a car type
+      parameters:
+      - description: Create a car type
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreateCarTypeRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarTypeResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create a car type
+      tags:
+      - CarTypes
+  /v1/car-types/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a car type
+      parameters:
+      - description: Delete a car type
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Delete a car type
+      tags:
+      - CarTypes
+    get:
+      consumes:
+      - application/json
+      description: Get a car type
+      parameters:
+      - description: Get a car type
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarTypeResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get a car type
+      tags:
+      - CarTypes
+    put:
+      consumes:
+      - application/json
+      description: Update a car type
+      parameters:
+      - description: Update a car type
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a car type
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdateCarTypeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarTypeResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Update a car type
+      tags:
+      - CarTypes
+  /v1/car-types/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: Get CarTypes
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CarTypeResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get CarTypes
+      tags:
+      - CarTypes
   /v1/cities/:
     post:
       consumes:
@@ -617,6 +948,187 @@ paths:
       summary: GetByFilter a City
       tags:
       - Cities
+  /v1/companies/:
+    post:
+      consumes:
+      - application/json
+      description: Create a Company
+      parameters:
+      - description: Create a Company
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreateCompanyRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CompanyResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create a Company
+      tags:
+      - Companies
+  /v1/companies/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a Company
+      parameters:
+      - description: Delete a Company
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Delete a Company
+      tags:
+      - Companies
+    get:
+      consumes:
+      - application/json
+      description: Get a Company
+      parameters:
+      - description: Get a Company
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CompanyResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get a Company
+      tags:
+      - Companies
+    put:
+      consumes:
+      - application/json
+      description: Update a Company
+      parameters:
+      - description: Update a Company
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a Company
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdateCompanyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CompanyResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Update a Company
+      tags:
+      - Companies
+  /v1/companies/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: Get Company
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CompanyResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get Company
+      tags:
+      - Companies
   /v1/countries/:
     post:
       consumes:
@@ -982,6 +1494,187 @@ paths:
       summary: Get Files
       tags:
       - Files
+  /v1/gearboxes/:
+    post:
+      consumes:
+      - application/json
+      description: Create a gearbox
+      parameters:
+      - description: Create a gearbox
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreateGearboxRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.GearboxResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create a gearbox
+      tags:
+      - Gearboxes
+  /v1/gearboxes/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a gearbox
+      parameters:
+      - description: Delete a gearbox
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Delete a gearbox
+      tags:
+      - Gearboxes
+    get:
+      consumes:
+      - application/json
+      description: Get a gearbox
+      parameters:
+      - description: Get a gearbox
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.GearboxResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get a gearbox
+      tags:
+      - Gearboxes
+    put:
+      consumes:
+      - application/json
+      description: Update a gearbox
+      parameters:
+      - description: Update a gearbox
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a gearbox
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdateGearboxRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.GearboxResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Update a gearbox
+      tags:
+      - Gearboxes
+  /v1/gearboxes/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: Get Gearboxes
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_GearboxResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get Gearboxes
+      tags:
+      - Gearboxes
   /v1/properties/:
     post:
       consumes:
