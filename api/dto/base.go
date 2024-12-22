@@ -5,9 +5,10 @@ type CreateUpdateCountryRequest struct {
 }
 
 type CountryResponse struct {
-	Id     int            `json:"id"`
-	Name   string         `json:"name"`
-	Cities []CityResponse `json:"cities"`
+	Id        int               `json:"id"`
+	Name      string            `json:"name"`
+	Cities    []CityResponse    `json:"cities"`
+	Companies []CompanyResponse `json:"companies"`
 }
 
 type UpdateCityRequest struct {
@@ -22,4 +23,20 @@ type CityResponse struct {
 	Id      int             `json:"id"`
 	Name    string          `json:"name"`
 	Country CountryResponse `json:"country"`
+}
+
+type CreateCompanyRequest struct {
+	CountryId int    `json:"countryId" binding:"required"`
+	Name      string `json:"company" binding:"required,alpha,max=15"`
+}
+
+type UpdateCompanyRequest struct {
+	CountryId int    `json:"countryId" binding:"required"`
+	Name      string `json:"company" binding:"required,alpha,max=15"`
+}
+
+type CompanyResponse struct {
+	Id      int             `json:"id"`
+	Name    string          `json:"name"`
+	Country CountryResponse `json:"country,omitempty"`
 }
