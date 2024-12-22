@@ -32,3 +32,12 @@ func Files(r *gin.RouterGroup, cfg *config.Config) {
 	r.GET("/:id", h.GetById)
 	r.POST("/get-by-filter", h.GetByFilter)
 }
+
+func Companies(r *gin.RouterGroup, cfg *config.Config) {
+	h := handlers.NewCompaniesHandler(cfg)
+	r.POST("/", h.Create)
+	r.GET("/:id", h.GetById)
+	r.PUT("/:id", h.Update)
+	r.DELETE("/:id", h.Delete)
+	r.POST("/get-by-filter", h.GetByFilter)
+}
