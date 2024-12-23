@@ -70,6 +70,11 @@ func registerRoutes(r *gin.Engine, config *config.Config) {
 		//Gearbox
 		gearbox := v1.Group("/gearboxes", middlewares.Authentication(config), middlewares.Authorization([]string{constatns.AdminRole}))
 		routes.Gearbox(gearbox, config)
+
+		//CarModel
+		carModel := v1.Group("/car-models", middlewares.Authentication(config), middlewares.Authorization([]string{constatns.AdminRole}))
+		routes.CarModels(carModel, config)
+
 	}
 }
 
