@@ -27,7 +27,7 @@ var (
 	cfg           *config.Config = config.GetConfig()
 	logg          logger.Logger  = logger.NewLogger(cfg)
 	matchFirstCap                = regexp.MustCompile("(.)([A-Z][a-z]+)")
-	matchAllCap                  = regexp.MustCompile("([a-z0-9]([A-Z]))")
+	matchAllCap                  = regexp.MustCompile("([a-z0-9])([A-Z])")
 )
 
 // CheckPasswordValid function for check password is valid or not
@@ -131,7 +131,7 @@ func GenerateOtp() string {
 // ToSnakeCase convert models fields to sankecase form.
 func ToSnakeCase(str string) (res string) {
 	res = matchFirstCap.ReplaceAllString(str, "${1}_${2}")
-	res = matchAllCap.ReplaceAllString(str, "${1}_${2}")
+	res = matchAllCap.ReplaceAllString(res, "${1}_${2}")
 	return strings.ToLower(res)
 }
 
