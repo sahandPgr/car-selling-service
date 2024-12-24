@@ -75,6 +75,13 @@ func registerRoutes(r *gin.Engine, config *config.Config) {
 		carModel := v1.Group("/car-models", middlewares.Authentication(config), middlewares.Authorization([]string{constatns.AdminRole}))
 		routes.CarModels(carModel, config)
 
+		//Color
+		color := v1.Group("/colors", middlewares.Authentication(config), middlewares.Authorization([]string{constatns.AdminRole}))
+		routes.Colors(color, config)
+
+		//CarModelColor
+		carModelColor := v1.Group("/car-model-colors", middlewares.Authentication(config), middlewares.Authorization([]string{constatns.AdminRole}))
+		routes.CarModelColors(carModelColor, config)
 	}
 }
 

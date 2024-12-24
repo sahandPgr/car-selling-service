@@ -85,20 +85,7 @@ func (h *FileHandler) Create(ctx *gin.Context) {
 // @Router /v1/files/{id} [put]
 // @Security AuthBearer
 func (h *FileHandler) Update(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Param("id"))
-	req := new(dto.UpdateFileRequest)
-	err := ctx.ShouldBindJSON(req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(helper.BadRequest, helper.GetBaseHttpResponseWithValidation(nil, false, helper.BadRequest, err))
-		return
-	}
-	res, err := h.service.Update(ctx, id, req)
-	if err != nil {
-		stc := helper.ConvertServiceErrorToStatusCode(err)
-		ctx.AbortWithStatusJSON(stc, helper.GetBaseHttpResponseWithError(nil, false, stc, err))
-		return
-	}
-	ctx.JSON(helper.Success, helper.GetBaseHttpResponse(res, true, helper.Success))
+	Update(ctx, h.service.Update)
 }
 
 // DeleteFile godoc
@@ -150,20 +137,7 @@ func (h *FileHandler) Delete(ctx *gin.Context) {
 // @Router /v1/files/{id} [get]
 // @Security AuthBearer
 func (h *FileHandler) GetById(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Param("id"))
-	if id == 0 {
-		ctx.AbortWithStatusJSON(helper.NotFound, helper.GetBaseHttpResponse(nil, false, helper.NotFound))
-		return
-	}
-
-	res, err := h.service.GetById(ctx, id)
-	if err != nil {
-		stc := helper.ConvertServiceErrorToStatusCode(err)
-		ctx.AbortWithStatusJSON(stc, helper.GetBaseHttpResponseWithError(nil, false, stc, err))
-		return
-	}
-
-	ctx.JSON(helper.Success, helper.GetBaseHttpResponse(res, true, helper.Success))
+	GetById(ctx, h.service.GetById)
 }
 
 // GetFiles godoc
@@ -179,21 +153,7 @@ func (h *FileHandler) GetById(ctx *gin.Context) {
 // @Router /v1/files/get-by-filter [post]
 // @Security AuthBearer
 func (h *FileHandler) GetByFilter(ctx *gin.Context) {
-	req := new(dto.PaginationInputWithFilter)
-	err := ctx.ShouldBindJSON(req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(helper.BadRequest, helper.GetBaseHttpResponseWithValidation(nil, false, helper.BadRequest, err))
-		return
-	}
-
-	res, err := h.service.GetByFilter(ctx, req)
-	if err != nil {
-		stc := helper.ConvertServiceErrorToStatusCode(err)
-		ctx.AbortWithStatusJSON(stc, helper.GetBaseHttpResponseWithError(nil, false, stc, err))
-		return
-	}
-
-	ctx.JSON(helper.Success, helper.GetBaseHttpResponse(res, true, helper.Success))
+	GetByFilter(ctx, h.service.GetByFilter)
 }
 
 func prepareUpload(file *multipart.FileHeader, dir string) (string, error) {
