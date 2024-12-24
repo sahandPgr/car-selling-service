@@ -50,9 +50,28 @@ type UpdateCarModelRequest struct {
 
 // CarModelResponse is the response for a car model
 type CarModelResponse struct {
-	Id      int             `json:"id"`
-	Name    string          `json:"name"`
-	Company CompanyResponse `json:"company"`
-	CarType CarTypeResponse `json:"carType"`
-	Gearbox GearboxResponse `json:"gearbox"`
+	Id             int                     `json:"id"`
+	Name           string                  `json:"name"`
+	Company        CompanyResponse         `json:"company"`
+	CarType        CarTypeResponse         `json:"carType"`
+	Gearbox        GearboxResponse         `json:"gearbox"`
+	CarModelColors []CarModelColorResponse `json:"carModelColors,omitempty"`
+}
+
+// CreateCarModelColorRequest for creating a car model color.
+type CreateCarModelColorRequest struct {
+	ColorId    int `json:"colorId" binding:"required"`
+	CarModelId int `json:"carModelId" binding:"required"`
+}
+
+// UpdateCarModelColorRequest for updating a car model color.
+type UpdateCarModelColorRequest struct {
+	ColorId    int `json:"colorId,omitempty"`
+	CarModelId int `json:"carModelId,omitempty"`
+}
+
+// CarModelColorResponse for car model color details.
+type CarModelColorResponse struct {
+	Id    int           `json:"id"`
+	Color ColorResponse `json:"color"`
 }
