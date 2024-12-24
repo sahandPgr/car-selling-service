@@ -1,6 +1,17 @@
 definitions:
+  github_com_sahandPgr_car-selling-service_api_dto.CarModelColorResponse:
+    properties:
+      color:
+        $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.ColorResponse'
+      id:
+        type: integer
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.CarModelResponse:
     properties:
+      carModelColors:
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelColorResponse'
+        type: array
       carType:
         $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarTypeResponse'
       company:
@@ -23,6 +34,15 @@ definitions:
     properties:
       country:
         $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CountryResponse'
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.ColorResponse:
+    properties:
+      hexCode:
+        type: string
       id:
         type: integer
       name:
@@ -51,6 +71,16 @@ definitions:
         type: integer
       name:
         type: string
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.CreateCarModelColorRequest:
+    properties:
+      carModelId:
+        type: integer
+      colorId:
+        type: integer
+    required:
+    - carModelId
+    - colorId
     type: object
   github_com_sahandPgr_car-selling-service_api_dto.CreateCarModelRequest:
     properties:
@@ -88,6 +118,18 @@ definitions:
         minLength: 2
         type: string
     required:
+    - name
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.CreateColorRequest:
+    properties:
+      hexCode:
+        maxLength: 15
+        type: string
+      name:
+        maxLength: 15
+        type: string
+    required:
+    - hexCode
     - name
     type: object
   github_com_sahandPgr_car-selling-service_api_dto.CreateCompanyRequest:
@@ -219,6 +261,29 @@ definitions:
     - password
     - username
     type: object
+  ? github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CarModelColorResponse
+  : properties:
+      hasNextPage:
+        description: HasNextPage indicates whether there is a next page.
+        type: boolean
+      hasPerviousPage:
+        description: HasPerviousPage indicates whether there is a previous page.
+        type: boolean
+      items:
+        description: Items contains the list of items for the current page.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelColorResponse'
+        type: array
+      pageNumber:
+        description: PageNumber is the current page number.
+        type: integer
+      totalPages:
+        description: TotalPages is the total number of pages available.
+        type: integer
+      totalRows:
+        description: TotalRows is the total number of rows available.
+        type: integer
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CarModelResponse:
     properties:
       hasNextPage:
@@ -277,6 +342,29 @@ definitions:
         description: Items contains the list of items for the current page.
         items:
           $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CityResponse'
+        type: array
+      pageNumber:
+        description: PageNumber is the current page number.
+        type: integer
+      totalPages:
+        description: TotalPages is the total number of pages available.
+        type: integer
+      totalRows:
+        description: TotalRows is the total number of rows available.
+        type: integer
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_ColorResponse:
+    properties:
+      hasNextPage:
+        description: HasNextPage indicates whether there is a next page.
+        type: boolean
+      hasPerviousPage:
+        description: HasPerviousPage indicates whether there is a previous page.
+        type: boolean
+      items:
+        description: Items contains the list of items for the current page.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.ColorResponse'
         type: array
       pageNumber:
         description: PageNumber is the current page number.
@@ -533,6 +621,13 @@ definitions:
         description: Sort specifies the sorting direction (e.g., "asc" or "desc").
         type: string
     type: object
+  github_com_sahandPgr_car-selling-service_api_dto.UpdateCarModelColorRequest:
+    properties:
+      carModelId:
+        type: integer
+      colorId:
+        type: integer
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.UpdateCarModelRequest:
     properties:
       carTypeId:
@@ -559,6 +654,13 @@ definitions:
         type: string
     required:
     - name
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.UpdateColorRequest:
+    properties:
+      hexCode:
+        type: string
+      name:
+        type: string
     type: object
   github_com_sahandPgr_car-selling-service_api_dto.UpdateCompanyRequest:
     properties:
@@ -651,6 +753,187 @@ definitions:
 info:
   contact: {}
 paths:
+  /v1/car-model-colors/:
+    post:
+      consumes:
+      - application/json
+      description: Create a CarModelColor
+      parameters:
+      - description: Create a CarModelColor
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreateCarModelColorRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelColorResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create a CarModelColor
+      tags:
+      - CarModelColors
+  /v1/car-model-colors/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a CarModelColor
+      parameters:
+      - description: Delete a CarModelColor
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Delete a CarModelColor
+      tags:
+      - CarModelColors
+    get:
+      consumes:
+      - application/json
+      description: GetById a CarModelColor
+      parameters:
+      - description: GetById a CarModelColor
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelColorResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: GetById a CarModelColor
+      tags:
+      - CarModelColors
+    put:
+      consumes:
+      - application/json
+      description: Update a CarModelColor
+      parameters:
+      - description: Update a CarModelColor
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a CarModelColor
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdateCarModelColorRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelColorResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Update a CarModelColor
+      tags:
+      - CarModelColors
+  /v1/car-model-colors/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: GetByFilter a CarModelColor
+      parameters:
+      - description: GetByFilter a CarModelColor
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CarModelColorResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: GetByFilter a CarModelColor
+      tags:
+      - CarModelColors
   /v1/car-models/:
     post:
       consumes:
@@ -1194,6 +1477,187 @@ paths:
       summary: GetByFilter a City
       tags:
       - Cities
+  /v1/colors/:
+    post:
+      consumes:
+      - application/json
+      description: Create a Color
+      parameters:
+      - description: Create a Color
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreateColorRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.ColorResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create a Color
+      tags:
+      - Colors
+  /v1/colors/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a Color
+      parameters:
+      - description: Delete a Color
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Delete a Color
+      tags:
+      - Colors
+    get:
+      consumes:
+      - application/json
+      description: GetById a Color
+      parameters:
+      - description: GetById a Color
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.ColorResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: GetById a Color
+      tags:
+      - Colors
+    put:
+      consumes:
+      - application/json
+      description: Update a Color
+      parameters:
+      - description: Update a Color
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a Color
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdateColorRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.ColorResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Update a Color
+      tags:
+      - Colors
+  /v1/colors/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: GetByFilter a Color
+      parameters:
+      - description: GetByFilter a Color
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_ColorResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: GetByFilter a Color
+      tags:
+      - Colors
   /v1/companies/:
     post:
       consumes:
