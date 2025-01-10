@@ -75,3 +75,21 @@ type CarModelColorResponse struct {
 	Id    int           `json:"id"`
 	Color ColorResponse `json:"color"`
 }
+
+// Struct to create a car model year relationship.
+type CreateCarModelYearRequest struct {
+	CarModelId int `json:"carModelId" binding:"required"`
+	YearId     int `json:"yearId" binding:"required"`
+}
+
+// Struct to update a car model year relationship (optional fields).
+type UpdateCarModelYearRequest struct {
+	CarModelId int `json:"carModelId,omitempty"`
+	YearId     int `json:"yearId,omitempty"`
+}
+
+// Struct to return car model year details with Persian year information.
+type CarModelYearResponse struct {
+	Id                  int                            `json:"id"`
+	PersianYearResponse PersianYearWithoutDateResponse `json:"persianYear"`
+}

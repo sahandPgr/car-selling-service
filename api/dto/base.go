@@ -1,5 +1,7 @@
 package dto
 
+import "time"
+
 // CreateUpdateCountryRequest is the payload for creating or updating a country
 type CreateUpdateCountryRequest struct {
 	Name string `json:"name" binding:"required,alpha,min=2,max=20"`
@@ -48,4 +50,34 @@ type CompanyResponse struct {
 	Id      int             `json:"id"`
 	Name    string          `json:"name"`
 	Country CountryResponse `json:"country,omitempty"`
+}
+
+// Struct to create a Persian year.
+type CreatePersianYearRequest struct {
+	PersianTitle string    `json:"persianYear" binding:"min=4,max=4"`
+	Year         int       `json:"year"`
+	StartAt      time.Time `json:"startAt"`
+	EndAt        time.Time `json:"endAt"`
+}
+
+// Struct to update a Persian year (optional fields).
+type UpdatePersianYearRequest struct {
+	PersianTitle string    `json:"persianYear,omitempty" binding:"min=4,max=4"`
+	Year         int       `json:"year,omitempty"`
+	StartAt      time.Time `json:"startAt,omitempty"`
+	EndAt        time.Time `json:"endAt,omitempty"`
+}
+
+// Struct to return Persian year details.
+type PersianYearResponse struct {
+	Id      int       `json:"id"`
+	Year    int       `json:"year,omitempty"`
+	StartAt time.Time `json:"startAt,omitempty"`
+	EndAt   time.Time `json:"endAt,omitempty"`
+}
+
+// Struct to return Persian year without dates.
+type PersianYearWithoutDateResponse struct {
+	Id   int `json:"id"`
+	Year int `json:"year,omitempty"`
 }
