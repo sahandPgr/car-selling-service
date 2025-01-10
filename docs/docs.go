@@ -317,6 +317,308 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/car-model-years/": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Create a CarModelYear",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModelYears"
+                ],
+                "summary": "Create a CarModelYear",
+                "parameters": [
+                    {
+                        "description": "Create a CarModelYear",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreateCarModelYearRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelYearResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/car-model-years/get-by-filter": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "GetByFilter a CarModelYear",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModelYears"
+                ],
+                "summary": "GetByFilter a CarModelYear",
+                "parameters": [
+                    {
+                        "description": "GetByFilter a CarModelYear",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CarModelYearResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/car-model-years/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "GetById a CarModelYear",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModelYears"
+                ],
+                "summary": "GetById a CarModelYear",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "GetById a CarModelYear",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelYearResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Update a CarModelYear",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModelYears"
+                ],
+                "summary": "Update a CarModelYear",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Update a CarModelYear",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update a CarModelYear",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdateCarModelYearRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelYearResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Delete a CarModelYear",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModelYears"
+                ],
+                "summary": "Delete a CarModelYear",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Delete a CarModelYear",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/car-models/": {
             "post": {
                 "security": [
@@ -2737,6 +3039,308 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/persian-years/": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Create a PersianYear",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PersianYears"
+                ],
+                "summary": "Create a PersianYear",
+                "parameters": [
+                    {
+                        "description": "Create a PersianYear",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreatePersianYearRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PersianYearResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/persian-years/get-by-filter": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get PersianYear",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PersianYears"
+                ],
+                "summary": "Get PersianYear",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PersianYearResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/persian-years/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get a PersianYear",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PersianYears"
+                ],
+                "summary": "Get a PersianYear",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Get a PersianYear",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PersianYearResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Update a PersianYear",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PersianYears"
+                ],
+                "summary": "Update a PersianYear",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Update a PersianYear",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update a PersianYear",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdatePersianYearRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PersianYearResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Delete a PersianYear",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PersianYears"
+                ],
+                "summary": "Delete a PersianYear",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Delete a PersianYear",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Failed",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/properties/": {
             "post": {
                 "security": [
@@ -3564,6 +4168,17 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_sahandPgr_car-selling-service_api_dto.CarModelYearResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "persianYear": {
+                    "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PersianYearWithoutDateResponse"
+                }
+            }
+        },
         "github_com_sahandPgr_car-selling-service_api_dto.CarTypeResponse": {
             "type": "object",
             "properties": {
@@ -3680,6 +4295,21 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_sahandPgr_car-selling-service_api_dto.CreateCarModelYearRequest": {
+            "type": "object",
+            "required": [
+                "carModelId",
+                "yearId"
+            ],
+            "properties": {
+                "carModelId": {
+                    "type": "integer"
+                },
+                "yearId": {
+                    "type": "integer"
+                }
+            }
+        },
         "github_com_sahandPgr_car-selling-service_api_dto.CreateCarTypeRequest": {
             "type": "object",
             "required": [
@@ -3752,6 +4382,25 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 15,
                     "minLength": 3
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.CreatePersianYearRequest": {
+            "type": "object",
+            "properties": {
+                "endAt": {
+                    "type": "string"
+                },
+                "persianYear": {
+                    "type": "string",
+                    "maxLength": 4,
+                    "minLength": 4
+                },
+                "startAt": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
                 }
             }
         },
@@ -3956,6 +4605,38 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelResponse"
+                    }
+                },
+                "pageNumber": {
+                    "description": "PageNumber is the current page number.",
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "description": "TotalPages is the total number of pages available.",
+                    "type": "integer"
+                },
+                "totalRows": {
+                    "description": "TotalRows is the total number of rows available.",
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CarModelYearResponse": {
+            "type": "object",
+            "properties": {
+                "hasNextPage": {
+                    "description": "HasNextPage indicates whether there is a next page.",
+                    "type": "boolean"
+                },
+                "hasPerviousPage": {
+                    "description": "HasPerviousPage indicates whether there is a previous page.",
+                    "type": "boolean"
+                },
+                "items": {
+                    "description": "Items contains the list of items for the current page.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelYearResponse"
                     }
                 },
                 "pageNumber": {
@@ -4196,6 +4877,38 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PersianYearResponse": {
+            "type": "object",
+            "properties": {
+                "hasNextPage": {
+                    "description": "HasNextPage indicates whether there is a next page.",
+                    "type": "boolean"
+                },
+                "hasPerviousPage": {
+                    "description": "HasPerviousPage indicates whether there is a previous page.",
+                    "type": "boolean"
+                },
+                "items": {
+                    "description": "Items contains the list of items for the current page.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PersianYearResponse"
+                    }
+                },
+                "pageNumber": {
+                    "description": "PageNumber is the current page number.",
+                    "type": "integer"
+                },
+                "totalPages": {
+                    "description": "TotalPages is the total number of pages available.",
+                    "type": "integer"
+                },
+                "totalRows": {
+                    "description": "TotalRows is the total number of rows available.",
+                    "type": "integer"
+                }
+            }
+        },
         "github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PropertyCategoryResponse": {
             "type": "object",
             "properties": {
@@ -4284,6 +4997,34 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/github_com_sahandPgr_car-selling-service_api_dto.Sort"
                     }
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.PersianYearResponse": {
+            "type": "object",
+            "properties": {
+                "endAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "startAt": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.PersianYearWithoutDateResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "year": {
+                    "type": "integer"
                 }
             }
         },
@@ -4439,6 +5180,17 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_sahandPgr_car-selling-service_api_dto.UpdateCarModelYearRequest": {
+            "type": "object",
+            "properties": {
+                "carModelId": {
+                    "type": "integer"
+                },
+                "yearId": {
+                    "type": "integer"
+                }
+            }
+        },
         "github_com_sahandPgr_car-selling-service_api_dto.UpdateCarTypeRequest": {
             "type": "object",
             "properties": {
@@ -4504,6 +5256,25 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 15,
                     "minLength": 3
+                }
+            }
+        },
+        "github_com_sahandPgr_car-selling-service_api_dto.UpdatePersianYearRequest": {
+            "type": "object",
+            "properties": {
+                "endAt": {
+                    "type": "string"
+                },
+                "persianYear": {
+                    "type": "string",
+                    "maxLength": 4,
+                    "minLength": 4
+                },
+                "startAt": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
                 }
             }
         },

@@ -23,6 +23,13 @@ definitions:
       name:
         type: string
     type: object
+  github_com_sahandPgr_car-selling-service_api_dto.CarModelYearResponse:
+    properties:
+      id:
+        type: integer
+      persianYear:
+        $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PersianYearWithoutDateResponse'
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.CarTypeResponse:
     properties:
       id:
@@ -100,6 +107,16 @@ definitions:
     - gearboxId
     - name
     type: object
+  github_com_sahandPgr_car-selling-service_api_dto.CreateCarModelYearRequest:
+    properties:
+      carModelId:
+        type: integer
+      yearId:
+        type: integer
+    required:
+    - carModelId
+    - yearId
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.CreateCarTypeRequest:
     properties:
       name:
@@ -151,6 +168,19 @@ definitions:
         type: string
     required:
     - name
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.CreatePersianYearRequest:
+    properties:
+      endAt:
+        type: string
+      persianYear:
+        maxLength: 4
+        minLength: 4
+        type: string
+      startAt:
+        type: string
+      year:
+        type: integer
     type: object
   github_com_sahandPgr_car-selling-service_api_dto.CreatePropertyCategoryRequest:
     properties:
@@ -296,6 +326,29 @@ definitions:
         description: Items contains the list of items for the current page.
         items:
           $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelResponse'
+        type: array
+      pageNumber:
+        description: PageNumber is the current page number.
+        type: integer
+      totalPages:
+        description: TotalPages is the total number of pages available.
+        type: integer
+      totalRows:
+        description: TotalRows is the total number of rows available.
+        type: integer
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CarModelYearResponse:
+    properties:
+      hasNextPage:
+        description: HasNextPage indicates whether there is a next page.
+        type: boolean
+      hasPerviousPage:
+        description: HasPerviousPage indicates whether there is a previous page.
+        type: boolean
+      items:
+        description: Items contains the list of items for the current page.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelYearResponse'
         type: array
       pageNumber:
         description: PageNumber is the current page number.
@@ -468,6 +521,29 @@ definitions:
         description: TotalRows is the total number of rows available.
         type: integer
     type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PersianYearResponse:
+    properties:
+      hasNextPage:
+        description: HasNextPage indicates whether there is a next page.
+        type: boolean
+      hasPerviousPage:
+        description: HasPerviousPage indicates whether there is a previous page.
+        type: boolean
+      items:
+        description: Items contains the list of items for the current page.
+        items:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PersianYearResponse'
+        type: array
+      pageNumber:
+        description: PageNumber is the current page number.
+        type: integer
+      totalPages:
+        description: TotalPages is the total number of pages available.
+        type: integer
+      totalRows:
+        description: TotalRows is the total number of rows available.
+        type: integer
+    type: object
   ? github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PropertyCategoryResponse
   : properties:
       hasNextPage:
@@ -532,6 +608,24 @@ definitions:
         items:
           $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.Sort'
         type: array
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PersianYearResponse:
+    properties:
+      endAt:
+        type: string
+      id:
+        type: integer
+      startAt:
+        type: string
+      year:
+        type: integer
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.PersianYearWithoutDateResponse:
+    properties:
+      id:
+        type: integer
+      year:
+        type: integer
     type: object
   github_com_sahandPgr_car-selling-service_api_dto.PropertyCategoryResponse:
     properties:
@@ -639,6 +733,13 @@ definitions:
       name:
         type: string
     type: object
+  github_com_sahandPgr_car-selling-service_api_dto.UpdateCarModelYearRequest:
+    properties:
+      carModelId:
+        type: integer
+      yearId:
+        type: integer
+    type: object
   github_com_sahandPgr_car-selling-service_api_dto.UpdateCarTypeRequest:
     properties:
       name:
@@ -684,6 +785,19 @@ definitions:
         maxLength: 15
         minLength: 3
         type: string
+    type: object
+  github_com_sahandPgr_car-selling-service_api_dto.UpdatePersianYearRequest:
+    properties:
+      endAt:
+        type: string
+      persianYear:
+        maxLength: 4
+        minLength: 4
+        type: string
+      startAt:
+        type: string
+      year:
+        type: integer
     type: object
   github_com_sahandPgr_car-selling-service_api_dto.UpdatePropertyCategoryRequest:
     properties:
@@ -934,6 +1048,187 @@ paths:
       summary: GetByFilter a CarModelColor
       tags:
       - CarModelColors
+  /v1/car-model-years/:
+    post:
+      consumes:
+      - application/json
+      description: Create a CarModelYear
+      parameters:
+      - description: Create a CarModelYear
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreateCarModelYearRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelYearResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create a CarModelYear
+      tags:
+      - CarModelYears
+  /v1/car-model-years/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a CarModelYear
+      parameters:
+      - description: Delete a CarModelYear
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Delete a CarModelYear
+      tags:
+      - CarModelYears
+    get:
+      consumes:
+      - application/json
+      description: GetById a CarModelYear
+      parameters:
+      - description: GetById a CarModelYear
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelYearResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: GetById a CarModelYear
+      tags:
+      - CarModelYears
+    put:
+      consumes:
+      - application/json
+      description: Update a CarModelYear
+      parameters:
+      - description: Update a CarModelYear
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a CarModelYear
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdateCarModelYearRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CarModelYearResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Update a CarModelYear
+      tags:
+      - CarModelYears
+  /v1/car-model-years/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: GetByFilter a CarModelYear
+      parameters:
+      - description: GetByFilter a CarModelYear
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_CarModelYearResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: GetByFilter a CarModelYear
+      tags:
+      - CarModelYears
   /v1/car-models/:
     post:
       consumes:
@@ -2385,6 +2680,187 @@ paths:
       summary: Get Gearboxes
       tags:
       - Gearboxes
+  /v1/persian-years/:
+    post:
+      consumes:
+      - application/json
+      description: Create a PersianYear
+      parameters:
+      - description: Create a PersianYear
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.CreatePersianYearRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PersianYearResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create a PersianYear
+      tags:
+      - PersianYears
+  /v1/persian-years/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a PersianYear
+      parameters:
+      - description: Delete a PersianYear
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Delete a PersianYear
+      tags:
+      - PersianYears
+    get:
+      consumes:
+      - application/json
+      description: Get a PersianYear
+      parameters:
+      - description: Get a PersianYear
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PersianYearResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get a PersianYear
+      tags:
+      - PersianYears
+    put:
+      consumes:
+      - application/json
+      description: Update a PersianYear
+      parameters:
+      - description: Update a PersianYear
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a PersianYear
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.UpdatePersianYearRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PersianYearResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Update a PersianYear
+      tags:
+      - PersianYears
+  /v1/persian-years/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: Get PersianYear
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PaginationInputWithFilter'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_dto.PagedList-github_com_sahandPgr_car-selling-service_api_dto_PersianYearResponse'
+              type: object
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+        "409":
+          description: Failed
+          schema:
+            $ref: '#/definitions/github_com_sahandPgr_car-selling-service_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get PersianYear
+      tags:
+      - PersianYears
   /v1/properties/:
     post:
       consumes:
